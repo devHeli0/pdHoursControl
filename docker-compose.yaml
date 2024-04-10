@@ -1,0 +1,71 @@
+version: '3.9'
+
+services:
+  # Postgres database service
+  postgresDB:
+    container_name: 'ctPdHoursControlDB'
+    image: postgres:latest
+    networks:
+      - database-network
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+      - POSTGRES_DB=${DB_NAME}
+    volumes:
+         - postgres_data:/var/lib/postgresql/data # Persistent storage for data
+    restart: always
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          'pg_isready -U pdAdmin -d pdHoursControlDB -h localhost -p 5432',
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    cap_add:
+      - SYS_NICE
+    command: ['postgres', '-c', 'log_statement=all']
+
+  backapp:
+    container_name: 'ctBackApp'
+    build: ./backdev
+    networks:
+      - database-network
+      - backend-network
+    ports:
+      - 3000:3000
+    environment:
+      - PORT=${PORT}
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - DB_HOST=postgresDB
+      - DB_NAME=${DB_NAME}
+      - DB_PORT=${DB_PORT}
+    restart: always
+    healthcheck:
+      test: ['CMD', 'nc', '-z', 'localhost', '3001']
+      timeout: 10s
+      retries: 5
+    depends_on:
+      - postgresDB
+
+  # frontapp:
+  #   container_name: 'ctFrontApp'
+  #   build: ./frontdev
+  #   ports:
+  #     - 3001:3001
+  #   environment:
+  #     - REACT_APP_HOST = http://frontapp:3001
+  #     - REACT_APP_API = http://backclientmanagement:3000
+  #   networks:
+  #     - backend-network
+
+volumes:
+  postgres_data: {}  # Define an empty volume for Postgres data
+
+networks:
+  database-network:
+  backend-network:
