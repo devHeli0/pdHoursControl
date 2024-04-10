@@ -1,0 +1,31 @@
+# Use a slim Node.js base image
+FROM node:20-slim AS base
+
+# Set environment variable for pnpm home directory
+ENV PNPM_HOME="/pnpm"
+
+# Add pnpm to PATH
+RUN corepack enable
+
+# Copy project files to the container
+WORKDIR /backdev
+COPY package*.json ./
+COPY . .
+
+# Install dependencies in a separate stage
+FROM base AS build-deps
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+
+# Install production dependencies (optional)
+FROM build-deps AS prod-deps
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --production --frozen-lockfile
+
+# Build the NestJS application (replace with your build command if different)
+FROM prod-deps AS build
+RUN pnpm run build
+
+# Final stage with a smaller image size
+FROM base
+COPY --from=build /backdev/dist /backdev/dist
+EXPOSE 8000
+CMD [ "node", "dist/main" ]
