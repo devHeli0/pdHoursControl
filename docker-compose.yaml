@@ -30,14 +30,15 @@ services:
     command: ['postgres', '-c', 'log_statement=all']
 
   backapp:
-    container_name: 'ctBackApp'
+    container_name: 'ctBackPdHours'
     build: ./backdev
     networks:
       - database-network
       - backend-network
     ports:
-      - 3000:3000
+      - ${PORT}:${PORT}
     environment:
+      - DATABASE_URL=postgresql://${DB_USER}:${DB_PASS}@postegresDB:${DB_PORT}/${DB_NAME}
       - PORT=${PORT}
       - DB_USER=${DB_USER}
       - DB_PASS=${DB_PASS}
@@ -46,14 +47,14 @@ services:
       - DB_PORT=${DB_PORT}
     restart: always
     healthcheck:
-      test: ['CMD', 'nc', '-z', 'localhost', '3001']
+      test: ['CMD', 'nc', '-z', 'localhost', '3000']
       timeout: 10s
       retries: 5
     depends_on:
       - postgresDB
 
   # frontapp:
-  #   container_name: 'ctFrontApp'
+  #   container_name: 'ctFrontPdHours'
   #   build: ./frontdev
   #   ports:
   #     - 3001:3001

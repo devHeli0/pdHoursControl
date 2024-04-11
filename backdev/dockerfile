@@ -9,14 +9,15 @@ RUN corepack enable
 
 # Copy project files to the container
 WORKDIR /backdev
-COPY package*.json ./
+COPY package*.json pnpm-lock.yaml ./
+COPY ./src/Infrastructure/prisma ./prisma/
 COPY . .
 
 # Install dependencies and build the application in one stage
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile && pnpm run build
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile && pnpm build
 
 # Final stage with a smaller image size
 FROM build AS final
 COPY --from=build /backdev/dist /backdev/dist
-EXPOSE 8000
-CMD [ "node", "dist/main" ]
+EXPOSE 3000
+CMD [ "pnpm", "start:prod" ]

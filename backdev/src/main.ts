@@ -10,7 +10,8 @@ async function bootstrap() {
     AppModule,
     new FastifyAdapter({ logger: true }),
   );
-  const { PORT } = process.env;
-  await app.listen(PORT); /*  await app.listen(3000, '0.0.0.0'); */
+  const { PORT, HOST, DATABASE_URL } = process.env;
+  console.log(DATABASE_URL);
+  await app.listen(PORT, HOST);
 }
 bootstrap();

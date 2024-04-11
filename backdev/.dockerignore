@@ -1,3 +1,7 @@
+# Git
+#git*
+#.gitignore
+
 # Node modules
 node_modules/
 
@@ -21,8 +25,12 @@ coverage/
 # .env.production
 
 # Prisma schema and generated files
-prisma/
+# prisma/
 
 # Other development specific files (adjust as needed)
 *.test.ts
 *.spec.ts
+
+# Docker 
+#dockerfile
+#.dockerignore
