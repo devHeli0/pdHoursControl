@@ -14,7 +14,7 @@ services:
       - POSTGRES_PASSWORD=${DB_PASS}
       - POSTGRES_DB=${DB_NAME}
     volumes:
-         - postgres_data:/var/lib/postgresql/data # Persistent storage for data
+      - postgres_data:/var/lib/postgresql/data # Persistent storage for data
     restart: always
     healthcheck:
       test:
@@ -38,11 +38,11 @@ services:
     ports:
       - ${PORT}:${PORT}
     environment:
-      - DATABASE_URL=postgresql://${DB_USER}:${DB_PASS}@postegresDB:${DB_PORT}/${DB_NAME}
+      - DATABASE_URL=postgresql://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}
       - PORT=${PORT}
       - DB_USER=${DB_USER}
       - DB_PASS=${DB_PASS}
-      - DB_HOST=postgresDB
+      - DB_HOST=${DB_HOST}
       - DB_NAME=${DB_NAME}
       - DB_PORT=${DB_PORT}
     restart: always
@@ -65,7 +65,7 @@ services:
   #     - backend-network
 
 volumes:
-  postgres_data: {}  # Define an empty volume for Postgres data
+  postgres_data: {} # Define an empty volume for Postgres data
 
 networks:
   database-network:
