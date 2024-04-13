@@ -1,6 +1,6 @@
 # Git
-#git*
-#.gitignore
+git*
+.gitignore
 
 # Node modules
 node_modules/
@@ -18,19 +18,11 @@ coverage/
 # Test reports
 *.log
 
-# Environment files 
-# .env
-# .env.local
-# .env.development
-# .env.production
-
-# Prisma schema and generated files
-# prisma/
-
 # Other development specific files (adjust as needed)
 *.test.ts
 *.spec.ts
+nest-cli.json
 
 # Docker 
-#dockerfile
-#.dockerignore
+dockerfile
+.dockerignore
