@@ -1,5 +1,5 @@
 import { Squad } from '../Entities';
 
-export default interface ISquadRepository {
+export default interface ISquadsRepository {
   create(name: string): Promise<Squad>;
 }

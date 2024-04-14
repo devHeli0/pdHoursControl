@@ -37,6 +37,9 @@ services:
       - backend-network
     ports:
       - ${PORT}:${PORT}
+    volumes:
+    - ./app/:/app/
+    - /app/node_modules
     environment:
       - DATABASE_URL=postgresql://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}
       - PORT=${PORT}

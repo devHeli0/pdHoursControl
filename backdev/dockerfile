@@ -1,26 +1,38 @@
-# Use a slim Node.js base image
-FROM node:20-slim AS build
+# First stage: base image with Node.js 20
+FROM node:20 AS base
 
-# Set environment variable for pnpm home directory
-ENV PNPM_HOME="/pnpm"
+# Install pnpm globally
+RUN npm i -g pnpm
 
-# Add pnpm to PATH (optional, consider using `pnpm config set add-path` as discussed earlier)
-RUN corepack enable
+# Second stage: dependencies stage
+FROM base AS dependencies 
+WORKDIR /usr/src/app
+COPY package.json pnpm-lock.yaml ./
+COPY src/Infrastructure/prisma ./
+RUN pnpm install
 
-# Copy project files to the container
-WORKDIR /backdev
-COPY package*.json ./
-COPY prisma ./prisma/
-
-# Install dependencies and pass-in
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+# Third stage: build stage
+FROM base AS build
+WORKDIR /usr/src/app
 COPY . .
+COPY --from=dependencies /usr/src/app/node_modules ./node_modules
 
-# Build the application in one stage
+# Build the application and Prune dev dependencies
 RUN pnpm build
+RUN pnpm prune --prod
 
-# Final stage with a smaller image size
-FROM build AS final
-COPY --from=build /backdev/dist /backdev/dist
+# Fourth stage: deployment stage with a smaller Alpine image
+FROM node:20-alpine3.19 AS deploy
+WORKDIR /usr/src/app
+RUN npm i -g pnpm prisma
+COPY --from=build /usr/src/app/dist ./dist
+COPY --from=build /usr/src/app/node_modules ./node_modules
+COPY --from=build /usr/src/app/package.json ./package.json
+COPY --from=build /usr/src/app/src/Infrastructure/prisma/* ./prisma
+
+# Generate Prisma client
+RUN pnpm prisma generate
+
+# Expose port and start app
 EXPOSE 3000
 CMD [ "pnpm", "start:prod" ]
