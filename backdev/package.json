@@ -10,7 +10,8 @@
   },
   "scripts": {
     "db:studio": "prisma studio --port 7777 --schema=./src/Infrastructure/prisma/schema.prisma",
-    "db:migrate": "prisma generate dev --schema=./src/Infrastructure/prisma/schema.prisma",
+    "db:migrate": "prisma migrate dev --schema=./src/Infrastructure/prisma/schema.prisma",
+    "db:reset": "prisma migrate reset --schema=./src/Infrastructure/prisma/schema.prisma",
     "db:generate": "prisma generate --schema=./src/Infrastructure/prisma/schema.prisma",
     "db:seed": "prisma db seed",
     "build": "nest build",

@@ -1,3 +1,5 @@
+import { CreateReportDTO } from 'src/Application/Commands/DTOs/CreateReportDTO';
+
 class Report {
   private id: number;
   private description: string;
@@ -6,17 +8,25 @@ class Report {
   private createdAt: Date;
 
   constructor(
-    id: number,
     description: string,
     employeeId: number,
     spentHours: number,
-    createdAt: Date,
+    id?: number,
+    createdAt?: Date,
   ) {
     this.id = id;
     this.description = description;
     this.employeeId = employeeId;
     this.spentHours = spentHours;
     this.createdAt = createdAt;
+  }
+
+  static create(reportData: CreateReportDTO): Report {
+    return new Report(
+      reportData.description,
+      reportData.employeeId,
+      reportData.spentHours,
+    );
   }
 
   getId(): number {

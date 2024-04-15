@@ -1,3 +1,4 @@
+import { CreateSquadDTO } from 'src/Application/Commands/DTOs/CreateSquadDTO';
 import { ISquadsRepository } from '../Repositories';
 import { Employee } from './Employee';
 
@@ -6,14 +7,14 @@ class Squad {
   public readonly name: string;
   public employees?: Employee[];
 
-  constructor(id: number, name: string, employees: Employee[] = []) {
+  constructor(name: string, employees: Employee[] = [], id?: number) {
     this.id = id;
     this.name = name;
     this.employees = employees;
   }
 
-  static create(data: { id: number; name: string }): Squad {
-    return new Squad(data.id, data.name);
+  static create(squadData: CreateSquadDTO): Squad {
+    return new Squad(squadData.name);
   }
 
   static findById(
