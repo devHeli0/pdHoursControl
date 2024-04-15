@@ -1,8 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-
 import { PrismaService } from '../prisma/prisma.service';
 import { IReportsRepository } from 'src/Domain/Repositories';
 import { Report } from 'src/Domain/Entities';
+import { GetSquadDTO } from 'src/Application/Queries/DTOs/GetSquadDTO';
+import { GetPeriodDTO } from 'src/Application/Queries/DTOs/GetPeriodDTO';
 
 @Injectable()
 export class ReportsRepository implements IReportsRepository {
@@ -27,5 +28,23 @@ export class ReportsRepository implements IReportsRepository {
       throw new NotFoundException(`Report with ID ${id} not found`);
     }
     return Report.create(report);
+  }
+
+  async findBySquadAndPeriod(
+    squadId: GetSquadDTO['id'],
+    period: GetPeriodDTO,
+  ): Promise<Report[]> {
+    const reports = await this.prisma.report.findMany({
+      where: {
+        employee: {
+          squadId,
+        },
+        createdAt: {
+          gte: new Date(period.startDate),
+          lte: new Date(period.endDate),
+        },
+      },
+    });
+    return reports.map(Report.create);
   }
 }

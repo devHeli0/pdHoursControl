@@ -1,3 +1,5 @@
+import { GetSquadDTO } from '../DTOs/GetSquadDTO';
+
 export class GetSquadQueryHandler {
-  constructor(public readonly squadId: number) {}
+  constructor(public readonly squadId: GetSquadDTO['id']) {}
 }

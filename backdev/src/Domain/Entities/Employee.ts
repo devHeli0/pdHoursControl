@@ -1,14 +1,16 @@
+import { GetSquadDTO } from 'src/Application/Queries/DTOs/GetSquadDTO';
+
 class Employee {
   private readonly id?: number;
   private name: string;
   private estimatedHours: number;
-  private squadId: number;
+  private squadId: GetSquadDTO['id'];
   private reports: Report[] = [];
 
   constructor(
     name: string,
     estimatedHours: number,
-    squadId: number,
+    squadId: GetSquadDTO['id'],
     id?: number,
   ) {
     this.validateEstimatedHours(estimatedHours);

@@ -1,4 +1,5 @@
 import { IsNotEmpty, IsNumber, Min, IsOptional, Max } from 'class-validator';
+import { GetSquadDTO } from 'src/Application/Queries/DTOs/GetSquadDTO';
 
 const hourMsg: string = 'Estimated hours must be between 1h and 12h';
 
@@ -14,7 +15,7 @@ export class CreateEmployeeDTO {
 
   @IsNotEmpty({ message: 'Squad ID is required' })
   @IsNumber({}, { message: 'Squad ID must be a number' })
-  squadId: number;
+  squadId: GetSquadDTO['id'];
 
   @IsOptional()
   id?: number;
