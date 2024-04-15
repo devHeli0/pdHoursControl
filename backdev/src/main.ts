@@ -1,17 +1,33 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
+import helmet from '@fastify/helmet';
+import { AppModule } from './app.module';
+import { ValidationPipe } from './Infrastructure/Middlewares/validationPipe';
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestFastifyApplication>(
-    AppModule,
-    new FastifyAdapter({ logger: true }),
-  );
+  try {
+    const { PORT, HOST } = process.env;
 
-  const { PORT, HOST } = process.env;
-  await app.listen(PORT, HOST);
+    if (!PORT || !HOST) {
+      throw new Error('Please provide PORT and HOST environment variables.');
+    }
+
+    const app = await NestFactory.create<NestFastifyApplication>(
+      AppModule,
+      new FastifyAdapter({ logger: true }),
+    );
+
+    app.useGlobalPipes(new ValidationPipe());
+    app.enableCors();
+    await app.register(helmet);
+    await app.listen(PORT, HOST);
+  } catch (error) {
+    console.error('Error during application startup:', error);
+    process.exit(1);
+  }
 }
+
 bootstrap();

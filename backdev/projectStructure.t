@@ -2,9 +2,9 @@
 ├── dist
 │   ├── Adapter
 │   │   └── Controllers
-│   │       ├── squadController.d.ts
-│   │       ├── squadController.js
-│   │       └── squadController.js.map
+│   │       ├── squadsController.d.ts
+│   │       ├── squadsController.js
+│   │       └── squadsController.js.map
 │   ├── Application
 │   │   ├── Commands
 │   │   │   ├── BusinessObjects
@@ -15,9 +15,9 @@
 │   │   │   │   ├── ICreateEmployeeDTO.d.ts
 │   │   │   │   ├── ICreateEmployeeDTO.js
 │   │   │   │   ├── ICreateEmployeeDTO.js.map
-│   │   │   │   ├── ICreateSquadDTO.d.ts
-│   │   │   │   ├── ICreateSquadDTO.js
-│   │   │   │   └── ICreateSquadDTO.js.map
+│   │   │   │   ├── CreateSquadDTO.d.ts
+│   │   │   │   ├── CreateSquadDTO.js
+│   │   │   │   └── CreateSquadDTO.js.map
 │   │   │   └── UseCases
 │   │   │       ├── createSquadUseCase.d.ts
 │   │   │       ├── createSquadUseCase.js
@@ -98,14 +98,14 @@
 ├── src
 │   ├── Adapter
 │   │   └── Controllers
-│   │       └── squadController.ts
+│   │       └── squadsController.ts
 │   ├── Application
 │   │   ├── Commands
 │   │   │   ├── BusinessObjects
 │   │   │   │   └── CalculateHoursBO.ts
 │   │   │   ├── DTOs
 │   │   │   │   ├── ICreateEmployeeDTO.ts
-│   │   │   │   └── ICreateSquadDTO.ts
+│   │   │   │   └── CreateSquadDTO.ts
 │   │   │   └── UseCases
 │   │   │       └── createSquadUseCase.ts
 │   │   └── Queries
