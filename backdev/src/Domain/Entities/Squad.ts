@@ -1,3 +1,4 @@
+import { ISquadsRepository } from '../Repositories';
 import { Employee } from './Employee';
 
 class Squad {
@@ -13,6 +14,13 @@ class Squad {
 
   static create(data: { id: number; name: string }): Squad {
     return new Squad(data.id, data.name);
+  }
+
+  static findById(
+    repository: ISquadsRepository,
+    id: number,
+  ): Promise<Squad | null> {
+    return repository.findById(id);
   }
 }
 

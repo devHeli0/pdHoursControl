@@ -1,34 +1,51 @@
-import { Report } from './Report';
-
 class Employee {
-  public readonly id?: number;
+  private readonly id?: number;
+  private name: string;
+  private estimatedHours: number;
+  private squadId: number;
+  private reports: Report[] = [];
 
-  public name: string;
-  public estimatedHours: number;
-  public squadId: number;
-  public reports?: Report[];
   constructor(
     name: string,
     estimatedHours: number,
     squadId: number,
-    reports: Report[],
     id?: number,
   ) {
+    this.validateEstimatedHours(estimatedHours);
+    this.id = id;
     this.name = name;
     this.estimatedHours = estimatedHours;
     this.squadId = squadId;
-    this.reports = reports;
-    this.id = id;
   }
 
-  static create({
-    id,
-    name,
-    estimatedHours,
-    squadId,
-    reports,
-  }): ICreateEmployeeDTO {
-    return new Employee(id, name, estimatedHours, squadId, reports);
+  private validateEstimatedHours(estimatedHours: number): void {
+    if (estimatedHours < 1 || estimatedHours > 12) {
+      throw new Error('Estimated hours must be between 1 and 12.');
+    }
+  }
+
+  public getId(): number | undefined {
+    return this.id;
+  }
+
+  public getName(): string {
+    return this.name;
+  }
+
+  public getEstimatedHours(): number {
+    return this.estimatedHours;
+  }
+
+  public getSquadId(): number {
+    return this.squadId;
+  }
+
+  public getReports(): Report[] {
+    return [...this.reports];
+  }
+
+  public addReport(report: Report): void {
+    this.reports.push(report);
   }
 }
 

@@ -2,6 +2,9 @@
 ├── dist
 │   ├── Adapter
 │   │   └── Controllers
+│   │       ├── employeesController.d.ts
+│   │       ├── employeesController.js
+│   │       ├── employeesController.js.map
 │   │       ├── squadsController.d.ts
 │   │       ├── squadsController.js
 │   │       └── squadsController.js.map
@@ -11,14 +14,28 @@
 │   │   │   │   ├── CalculateHoursBO.d.ts
 │   │   │   │   ├── CalculateHoursBO.js
 │   │   │   │   └── CalculateHoursBO.js.map
+│   │   │   ├── commandHandler
+│   │   │   │   ├── CreateEmployeeCommandHandler.d.ts
+│   │   │   │   ├── CreateEmployeeCommandHandler.js
+│   │   │   │   ├── CreateEmployeeCommandHandler.js.map
+│   │   │   │   ├── CreateSquadCommandHandler.d.ts
+│   │   │   │   ├── CreateSquadCommandHandler.js
+│   │   │   │   └── CreateSquadCommandHandler.js.map
+│   │   │   ├── commands
+│   │   │   │   ├── CreateEmployeeCommandHandler.d.ts
+│   │   │   │   ├── CreateEmployeeCommandHandler.js
+│   │   │   │   └── CreateEmployeeCommandHandler.js.map
 │   │   │   ├── DTOs
-│   │   │   │   ├── ICreateEmployeeDTO.d.ts
-│   │   │   │   ├── ICreateEmployeeDTO.js
-│   │   │   │   ├── ICreateEmployeeDTO.js.map
+│   │   │   │   ├── CreateEmployeeDTO.d.ts
+│   │   │   │   ├── CreateEmployeeDTO.js
+│   │   │   │   ├── CreateEmployeeDTO.js.map
 │   │   │   │   ├── CreateSquadDTO.d.ts
 │   │   │   │   ├── CreateSquadDTO.js
 │   │   │   │   └── CreateSquadDTO.js.map
 │   │   │   └── UseCases
+│   │   │       ├── createEmployeeUseCase.d.ts
+│   │   │       ├── createEmployeeUseCase.js
+│   │   │       ├── createEmployeeUseCase.js.map
 │   │   │       ├── createSquadUseCase.d.ts
 │   │   │       ├── createSquadUseCase.js
 │   │   │       └── createSquadUseCase.js.map
@@ -66,7 +83,18 @@
 │   │       ├── ISquadsRepository.js
 │   │       └── ISquadsRepository.js.map
 │   ├── Infrastructure
+│   │   ├── Middlewares
+│   │   │   ├── loggerMiddleare.d.ts
+│   │   │   ├── loggerMiddleare.js
+│   │   │   ├── loggerMiddleare.js.map
+│   │   │   ├── validationPipe.d.ts
+│   │   │   ├── validationPipe.js
+│   │   │   └── validationPipe.js.map
 │   │   ├── Modules
+│   │   │   ├── employees
+│   │   │   │   ├── employees.module.d.ts
+│   │   │   │   ├── employees.module.js
+│   │   │   │   └── employees.module.js.map
 │   │   │   └── squads
 │   │   │       ├── squads.module.d.ts
 │   │   │       ├── squads.module.js
@@ -82,6 +110,9 @@
 │   │   │   ├── seed.js
 │   │   │   └── seed.js.map
 │   │   └── Repositories
+│   │       ├── EmployeesRepository.d.ts
+│   │       ├── EmployeesRepository.js
+│   │       ├── EmployeesRepository.js.map
 │   │       ├── SquadsRepository.d.ts
 │   │       ├── SquadsRepository.js
 │   │       └── SquadsRepository.js.map
@@ -98,15 +129,20 @@
 ├── src
 │   ├── Adapter
 │   │   └── Controllers
+│   │       ├── employeesController.ts
 │   │       └── squadsController.ts
 │   ├── Application
 │   │   ├── Commands
 │   │   │   ├── BusinessObjects
 │   │   │   │   └── CalculateHoursBO.ts
+│   │   │   ├── commandHandler
+│   │   │   │   ├── CreateEmployeeCommandHandler.ts
+│   │   │   │   └── CreateSquadCommandHandler.ts
 │   │   │   ├── DTOs
-│   │   │   │   ├── ICreateEmployeeDTO.ts
+│   │   │   │   ├── CreateEmployeeDTO.ts
 │   │   │   │   └── CreateSquadDTO.ts
 │   │   │   └── UseCases
+│   │   │       ├── createEmployeeUseCase.ts
 │   │   │       └── createSquadUseCase.ts
 │   │   └── Queries
 │   │       ├── BusinessObjects
@@ -128,7 +164,12 @@
 │   │       ├── IReportsRepository.ts
 │   │       └── ISquadsRepository.ts
 │   ├── Infrastructure
+│   │   ├── Middlewares
+│   │   │   ├── loggerMiddleare.ts
+│   │   │   └── validationPipe.ts
 │   │   ├── Modules
+│   │   │   ├── employees
+│   │   │   │   └── employees.module.ts
 │   │   │   └── squads
 │   │   │       └── squads.module.ts
 │   │   ├── prisma
@@ -142,6 +183,7 @@
 │   │   │   ├── schema.prisma
 │   │   │   └── seed.ts
 │   │   └── Repositories
+│   │       ├── EmployeesRepository.ts
 │   │       └── SquadsRepository.ts
 │   └── main.ts
 ├── test
@@ -150,4 +192,4 @@
 ├── tsconfig.build.json
 └── tsconfig.json
 
-44 directories, 107 files
+51 directories, 142 files

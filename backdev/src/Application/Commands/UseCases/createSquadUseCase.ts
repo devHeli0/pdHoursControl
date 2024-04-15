@@ -1,17 +1,22 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Squad } from '@prisma/client';
-import ISquadsRepository from 'src/Domain/Repositories/ISquadsRepository';
+import { ISquadsRepository } from 'src/Domain/Repositories';
 import { SquadsRepository } from 'src/Infrastructure/Repositories/SquadsRepository';
-import { CreateSquadDTO } from '../DTOs/CreateSquadDTO';
+import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { CreateSquadCommandHandler } from '../commandHandler/CreateSquadCommandHandler';
 
 @Injectable()
-export class CreateSquadUseCase {
+@CommandHandler(CreateSquadCommandHandler)
+export class CreateSquadUseCase
+  implements ICommandHandler<CreateSquadCommandHandler>
+{
   constructor(
     @Inject(SquadsRepository)
     private readonly squadsRepository: ISquadsRepository,
   ) {}
 
-  async execute(createSquadDto: CreateSquadDTO): Promise<Squad> {
-    return await this.squadsRepository.create(createSquadDto.name);
+  async execute(command: CreateSquadCommandHandler): Promise<Squad | null> {
+    const { name } = command;
+    return this.squadsRepository.create(name);
   }
 }

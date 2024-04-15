@@ -1,27 +1,23 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+import { IsNotEmpty, IsNumber, Min, IsOptional, Max } from 'class-validator';
 
-// employee.dto.ts
-interface ICreateEmployeeDTO {
-  readonly name: string;
-  readonly estimatedHours: number;
-  readonly squadId: number;
-}
+const hourMsg: string = 'Estimated hours must be between 1h and 12h';
 
-// report.dto.ts
-interface CreateReportDTO {
-  readonly description: string;
-  readonly employeeId: number;
-  readonly spentHours: number;
-}
+export class CreateEmployeeDTO {
+  @IsNotEmpty({ message: 'Name is required' })
+  name: string;
 
-// time-spent.dto.ts
-interface TimeSpentDTO {
-  readonly squadId: number;
-  readonly period: Date; // You can refine the type for your period
-}
+  @IsNotEmpty({ message: 'Estimated hours is required' })
+  @IsNumber({}, { message: 'Estimated hours must be a number' })
+  @Min(0, { message: hourMsg })
+  @Max(12, { message: hourMsg })
+  estimatedHours: number;
 
-// total-time-spent.dto.ts
-interface TotalTimeSpentDTO {
-  readonly squadId: number;
-  readonly period: Date; // You can refine the type for your period
+  @IsNotEmpty({ message: 'Squad ID is required' })
+  @IsNumber({}, { message: 'Squad ID must be a number' })
+  squadId: number;
+
+  @IsOptional()
+  id?: number;
+
+  reports?: any[]; // Define the type of reports explicitly
 }

@@ -1,7 +1,9 @@
-import { Injectable } from '@nestjs/common';
-import { Squad } from 'src/Domain/Entities';
+// SquadsRepository.ts
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+
 import { ISquadsRepository } from 'src/Domain/Repositories';
+import { Squad } from 'src/Domain/Entities';
 
 @Injectable()
 export class SquadsRepository implements ISquadsRepository {
@@ -12,5 +14,15 @@ export class SquadsRepository implements ISquadsRepository {
       data: { name },
     });
     return Squad.create(createdSquad);
+  }
+
+  async findById(id: number): Promise<Squad | null> {
+    const squad = await this.prisma.squad.findUnique({
+      where: { id },
+    });
+    if (!squad) {
+      throw new NotFoundException(`Squad with ID ${id} not found`);
+    }
+    return Squad.create(squad);
   }
 }

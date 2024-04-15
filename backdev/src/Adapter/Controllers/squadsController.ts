@@ -1,19 +1,32 @@
-import { Controller, Post, Body, HttpStatus, Res } from '@nestjs/common';
-import { Squad } from '@prisma/client';
-import { CreateSquadUseCase } from 'src/Application/Commands/UseCases/createSquadUseCase';
+import { Controller, Get, Param, HttpStatus, Res } from '@nestjs/common';
+import { QueryBus } from '@nestjs/cqrs';
 import { FastifyReply } from 'fastify';
-import { CreateSquadDTO } from 'src/Application/Commands/DTOs/CreateSquadDTO';
+import { GetSquadDTO } from 'src/Application/Queries/DTOs/GetSquadDTO';
+import { GetSquadQueryHandler } from 'src/Application/Queries/queryHandler/GetSquadQueryHandler';
 
 @Controller('squads')
 export class SquadsController {
-  constructor(private readonly createSquadUseCase: CreateSquadUseCase) {}
+  constructor(private readonly queryBus: QueryBus) {}
 
-  @Post('squad')
-  async createSquad(
-    @Body() squadName: CreateSquadDTO,
+  @Get(':squadId')
+  async getSquad(
+    @Param('squadId') squadId: GetSquadDTO['id'],
     @Res() reply: FastifyReply,
-  ): Promise<Squad> {
-    const newSquad = await this.createSquadUseCase.execute(squadName);
-    return reply.status(HttpStatus.CREATED).send(newSquad);
+  ): Promise<void> {
+    const result = await this.queryBus.execute(
+      new GetSquadQueryHandler(Number(squadId)),
+    );
+
+    if (!result) {
+      return reply.status(HttpStatus.NOT_FOUND).send({
+        success: false,
+        message: result.errors,
+      });
+    }
+
+    return reply.status(HttpStatus.OK).send({
+      success: true,
+      data: result,
+    });
   }
 }

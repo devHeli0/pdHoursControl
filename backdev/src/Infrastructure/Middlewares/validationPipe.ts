@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-types */
 import {
   PipeTransform,
   Injectable,
@@ -15,6 +14,11 @@ export class ValidationPipe implements PipeTransform<any> {
       return value;
     }
 
+    // Check if metatype is defined before using it
+    if (!value || typeof value !== 'object') {
+      throw new BadRequestException('Validation failed');
+    }
+
     const object = plainToClass(metatype, value);
     const errors = await validate(object);
 
@@ -28,7 +32,9 @@ export class ValidationPipe implements PipeTransform<any> {
     return value;
   }
 
+  // eslint-disable-next-line @typescript-eslint/ban-types
   private toValidate(metatype: Function): boolean {
+    // eslint-disable-next-line @typescript-eslint/ban-types
     const types: Function[] = [String, Boolean, Number, Array, Object];
     return !types.includes(metatype);
   }

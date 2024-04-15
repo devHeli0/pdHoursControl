@@ -1,5 +1,5 @@
-import IEmployeeRepository from './IEmployeesRepository';
 import ISquadsRepository from './ISquadsRepository';
 import IReportRepository from './IReportsRepository';
+import IEmployeesRepository from './IEmployeesRepository';
 
-export { IEmployeeRepository, ISquadsRepository, IReportRepository };
+export { IEmployeesRepository, ISquadsRepository, IReportRepository };
