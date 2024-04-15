@@ -4,10 +4,11 @@ import { EmployeesController } from 'src/Adapter/Controllers/employeesController
 import { CreateEmployeeUseCase } from 'src/Application/Commands/UseCases/createEmployeeUseCase';
 import { EmployeesRepository } from 'src/Infrastructure/Repositories/EmployeesRepository';
 import { CqrsModule } from '@nestjs/cqrs';
+import { GetEmployeeUseCase } from 'src/Application/Queries/UseCases/GetEmployeeUseCase';
 
 @Module({
   imports: [PrismaModule, CqrsModule],
   controllers: [EmployeesController],
-  providers: [EmployeesRepository, CreateEmployeeUseCase],
+  providers: [EmployeesRepository, CreateEmployeeUseCase, GetEmployeeUseCase],
 })
 export class EmployeesModule {}

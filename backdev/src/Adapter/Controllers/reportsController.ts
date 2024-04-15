@@ -1,4 +1,3 @@
-// reports.controller.ts
 import {
   Controller,
   Post,
@@ -13,6 +12,8 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { FastifyReply } from 'fastify';
 import { CreateReportCommandHandler } from 'src/Application/Commands/commandHandler/CreateReportCommandHandler';
 import { CreateReportDTO } from 'src/Application/Commands/DTOs/CreateReportDTO';
+import { GetReportDTO } from 'src/Application/Queries/DTOs/GetReportDTO';
+import { GetEmployeeQueryHandler } from 'src/Application/Queries/queryHandler/GetEmployeeQueryHandler';
 import { GetReportQueryHandler } from 'src/Application/Queries/queryHandler/GetReportQueryHandler';
 
 @Controller('reports')
@@ -27,6 +28,18 @@ export class ReportsController {
     @Body() createReportDTO: CreateReportDTO,
     @Res() reply: FastifyReply,
   ): Promise<void> {
+    const employee = await this.queryBus.execute(
+      new GetEmployeeQueryHandler(createReportDTO.employeeId),
+    );
+
+    if (!employee) {
+      return reply.status(HttpStatus.BAD_REQUEST).send({
+        success: false,
+        errors: [
+          `Employee with ID ${createReportDTO.employeeId} does not exist`,
+        ],
+      });
+    }
     const result = await this.commandBus.execute(
       new CreateReportCommandHandler(
         createReportDTO.description,
@@ -50,7 +63,7 @@ export class ReportsController {
 
   @Get(':reportId')
   async getReport(
-    @Param('reportId') reportId: number,
+    @Param('reportId') reportId: GetReportDTO['id'],
     @Res() reply: FastifyReply,
   ): Promise<void> {
     const result = await this.queryBus.execute(

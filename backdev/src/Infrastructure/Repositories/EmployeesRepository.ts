@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { Employee } from 'src/Domain/Entities';
 import { PrismaService } from '../prisma/prisma.service';
 import { IEmployeesRepository } from 'src/Domain/Repositories';
+import { Employee } from 'src/Domain/Entities';
 
 @Injectable()
 export class EmployeesRepository implements IEmployeesRepository {
@@ -16,20 +16,28 @@ export class EmployeesRepository implements IEmployeesRepository {
       },
     };
 
-    const newEmployeee = new Employee(
-      newEmployeeData.data.name,
-      newEmployeeData.data.estimatedHours,
-      newEmployeeData.data.squadId,
-    );
+    const createdEmployee = await this.prisma.employee.create(newEmployeeData);
 
-    this.prisma.employee
-      .create(newEmployeeData)
-      .then((createdEmployee) => {
-        console.log('Created employee:', createdEmployee);
-      })
-      .catch((error) => {
-        console.error('Error creating employee:', error);
-      });
-    return newEmployeee;
+    return new Employee(
+      createdEmployee.name,
+      createdEmployee.estimatedHours,
+      createdEmployee.squadId,
+    );
+  }
+
+  async findById(id: number): Promise<Employee | null> {
+    const employee = await this.prisma.employee.findUnique({
+      where: { id },
+    });
+
+    if (!employee) {
+      return null;
+    }
+
+    return new Employee(
+      employee.name,
+      employee.estimatedHours,
+      employee.squadId,
+    );
   }
 }

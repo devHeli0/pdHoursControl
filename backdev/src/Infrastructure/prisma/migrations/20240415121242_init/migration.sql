@@ -31,16 +31,10 @@ CREATE TABLE "Report" (
 CREATE UNIQUE INDEX "Employee_id_key" ON "Employee"("id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Employee_squadId_key" ON "Employee"("squadId");
-
--- CreateIndex
 CREATE UNIQUE INDEX "Squad_id_key" ON "Squad"("id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Report_id_key" ON "Report"("id");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Report_employeeId_key" ON "Report"("employeeId");
 
 -- AddForeignKey
 ALTER TABLE "Employee" ADD CONSTRAINT "Employee_squadId_fkey" FOREIGN KEY ("squadId") REFERENCES "Squad"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
