@@ -1,14 +1,13 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { Report } from '@prisma/client';
-import { ReportsRepository } from 'src/Infrastructure/Repositories/ReportsRepository';
-import { GetReportsBySquadAndPeriodQueryHandler } from '../queryHandler/GetReportQueryHandler';
 import { IReportsRepository } from 'src/Domain/Repositories';
+import { GetReportsBySquadAndPeriodQueryHandler } from '../queryHandler/GetReportQueryHandler';
+import { ReportsRepository } from 'src/Infrastructure/Repositories/ReportsRepository';
 
 @Injectable()
 @QueryHandler(GetReportsBySquadAndPeriodQueryHandler)
-export class GetReportsBySquadAndPeriodUseCase
-  implements IQueryHandler<GetReportsBySquadAndPeriodQueryHandler, Report[]>
+export class GetSpentHoursBySquadUseCase
+  implements IQueryHandler<GetReportsBySquadAndPeriodQueryHandler, number>
 {
   constructor(
     @Inject(ReportsRepository)
@@ -17,11 +16,10 @@ export class GetReportsBySquadAndPeriodUseCase
 
   async execute(
     query: GetReportsBySquadAndPeriodQueryHandler,
-  ): Promise<Report[]> {
+  ): Promise<number> {
     const { squadId, period } = query;
     const startDate = new Date(period.startDate);
     const endDate = new Date(period.endDate);
-
     const reports = await this.reportsRepository.findBySquadAndPeriod(squadId, {
       startDate,
       endDate,
@@ -33,12 +31,11 @@ export class GetReportsBySquadAndPeriodUseCase
       );
     }
 
-    return reports.map((report) => ({
-      id: report.getId(),
-      description: report.getDescription(),
-      employeeId: report.getEmployeeId(),
-      spentHours: report.getSpentHours(),
-      createdAt: report.getCreatedAt(),
-    }));
+    const totalSpentHours = reports.reduce(
+      (total, report) => total + report.getSpentHours(),
+      0,
+    );
+
+    return totalSpentHours;
   }
 }

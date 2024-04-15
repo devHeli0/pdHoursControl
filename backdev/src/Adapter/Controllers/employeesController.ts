@@ -6,6 +6,7 @@ import {
   Param,
   HttpStatus,
   Res,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { CreateEmployeeCommandHandler } from 'src/Application/Commands/commandHandler/CreateEmployeeCommandHandler';
@@ -60,7 +61,7 @@ export class EmployeesController {
 
   @Get(':employeeId')
   async getEmployee(
-    @Param('employeeId') employeeId: number,
+    @Param('employeeId', ParseIntPipe) employeeId: number,
     @Res() reply: FastifyReply,
   ): Promise<void> {
     const employee = await this.queryBus.execute(

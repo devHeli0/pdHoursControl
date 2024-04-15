@@ -1,11 +1,11 @@
-import { IsDateString, IsNotEmpty } from 'class-validator';
+import { IsDate, IsNotEmpty } from 'class-validator';
 
 export class GetPeriodDTO {
   @IsNotEmpty()
-  @IsDateString()
-  startDate: string;
+  @IsDate()
+  startDate: Date;
 
   @IsNotEmpty()
-  @IsDateString()
-  endDate: string;
+  @IsDate()
+  endDate: Date;
 }

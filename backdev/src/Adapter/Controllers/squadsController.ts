@@ -6,6 +6,7 @@ import {
   Res,
   NotFoundException,
   Query,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { QueryBus } from '@nestjs/cqrs';
 import { FastifyReply } from 'fastify';
@@ -20,7 +21,7 @@ export class SquadsController {
 
   @Get(':squadId')
   async getSquad(
-    @Param('squadId') squadId: GetSquadDTO['id'],
+    @Param('squadId', ParseIntPipe) squadId: GetSquadDTO['id'],
     @Res() reply: FastifyReply,
   ): Promise<void> {
     const result = await this.queryBus.execute(
@@ -41,7 +42,7 @@ export class SquadsController {
   }
   @Get(':squadId/reports')
   async getReportsBySquadAndPeriod(
-    @Param('squadId') squadId: GetSquadDTO['id'],
+    @Param('squadId', ParseIntPipe) squadId: GetSquadDTO['id'],
     @Query() period: GetPeriodDTO,
   ) {
     // Step 1: Fetch squad

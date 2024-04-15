@@ -40,8 +40,8 @@ export class ReportsRepository implements IReportsRepository {
           squadId,
         },
         createdAt: {
-          gte: new Date(period.startDate),
-          lte: new Date(period.endDate),
+          gte: period.startDate,
+          lte: period.endDate,
         },
       },
     });

@@ -7,14 +7,20 @@ import {
   HttpStatus,
   Res,
   NotFoundException,
+  ParseIntPipe,
+  Query,
 } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { FastifyReply } from 'fastify';
 import { CreateReportCommandHandler } from 'src/Application/Commands/commandHandler/CreateReportCommandHandler';
 import { CreateReportDTO } from 'src/Application/Commands/DTOs/CreateReportDTO';
+import { GetPeriodDTO } from 'src/Application/Queries/DTOs/GetPeriodDTO';
 import { GetReportDTO } from 'src/Application/Queries/DTOs/GetReportDTO';
 import { GetEmployeeQueryHandler } from 'src/Application/Queries/queryHandler/GetEmployeeQueryHandler';
-import { GetReportQueryHandler } from 'src/Application/Queries/queryHandler/GetReportQueryHandler';
+import {
+  GetReportQueryHandler,
+  GetReportsBySquadAndPeriodQueryHandler,
+} from 'src/Application/Queries/queryHandler/GetReportQueryHandler';
 
 @Controller('reports')
 export class ReportsController {
@@ -63,7 +69,7 @@ export class ReportsController {
 
   @Get(':reportId')
   async getReport(
-    @Param('reportId') reportId: GetReportDTO['id'],
+    @Param('reportId', ParseIntPipe) reportId: GetReportDTO['id'],
     @Res() reply: FastifyReply,
   ): Promise<void> {
     const result = await this.queryBus.execute(
@@ -78,5 +84,29 @@ export class ReportsController {
       success: true,
       data: result,
     });
+  }
+  @Get('squad/:squadId')
+  async getReportsBySquadAndPeriod(
+    @Param('squadId', ParseIntPipe) squadId: number,
+    @Query('startDate') startDate: GetPeriodDTO['startDate'],
+    @Query('endDate') endDate: GetPeriodDTO['endDate'],
+  ) {
+    const period = { startDate, endDate };
+    return this.queryBus.execute(
+      new GetReportsBySquadAndPeriodQueryHandler(squadId, period),
+    );
+  }
+
+  @Get('squad/:squadId/totalSpentTime')
+  async getTotalSpentTimeBySquad(
+    @Param('squadId', ParseIntPipe) squadId: number,
+    @Query('startDate') startDate: GetPeriodDTO['startDate'],
+    @Query('endDate') endDate: GetPeriodDTO['endDate'],
+  ) {
+    const period = { startDate, endDate };
+    const totalTimeSpent = await this.queryBus.execute(
+      new GetReportsBySquadAndPeriodQueryHandler(squadId, period),
+    );
+    return { totalSpentTime: totalTimeSpent };
   }
 }

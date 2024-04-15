@@ -11,9 +11,11 @@ async function bootstrap() {
   try {
     const { PORT, HOST } = process.env;
 
-    if (!PORT || !HOST) {
-      throw new Error('Please provide PORT and HOST environment variables.');
-    }
+    // console.log(PORT, HOST);
+
+    // if (!PORT || !HOST) {
+    //   throw new Error('Please provide PORT and HOST environment variables.');
+    // }
 
     const app = await NestFactory.create<NestFastifyApplication>(
       AppModule,
