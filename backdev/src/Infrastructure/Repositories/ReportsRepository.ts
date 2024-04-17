@@ -33,7 +33,6 @@ export class ReportsRepository implements IReportsRepository {
   async getSpentHoursBySquadAndPeriod(query: GetSpentHoursDTO): Promise<any> {
     const { squadId, period } = query;
     const { startDate, endDate } = period;
-
     try {
       const spentHours = await this.prisma.report.findMany({
         where: {
