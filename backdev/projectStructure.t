@@ -40,7 +40,7 @@
 │   │       │   └── GetSquadQueryHandler.ts
 │   │       └── UseCases
 │   │           ├── GetEmployeeUseCase.ts
-│   │           ├── GetReportsBySquadAndPeriodUseCase.ts
+│   │           ├── getSpentHoursBySquadAndPeriodUseCase.ts
 │   │           ├── GetReportUseCase.ts
 │   │           ├── GetSpentHoursBySquadUseCase.ts
 │   │           └── GetSquadUseCase.ts

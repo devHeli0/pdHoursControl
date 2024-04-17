@@ -84,8 +84,9 @@ export class ReportsController {
       data: result,
     });
   }
-  @Get('squad/:squadId')
-  async getReportsBySquadAndPeriod(@Body() data: GetSpentHoursDTO) {
+  @Get('squad')
+  async getSpentHoursBySquadAndPeriod(@Body() data: GetSpentHoursDTO) {
+    console.log(data);
     return this.queryBus.execute(new GetSpentHoursBySquadAndPeriodQuery(data));
   }
 }
