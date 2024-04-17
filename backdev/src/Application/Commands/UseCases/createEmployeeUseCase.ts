@@ -5,7 +5,7 @@ import { CreateEmployeeDTO } from '../DTOs/CreateEmployeeDTO';
 import { EmployeesRepository } from 'src/Infrastructure/Repositories/EmployeesRepository';
 import { validate } from 'class-validator';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { CreateEmployeeCommandHandler } from '../commandHandler/CreateEmployeeCommandHandler';
+import { CreateEmployeeCommandHandler } from '../Handlers/CreateEmployeeCommandHandler';
 
 @Injectable()
 @CommandHandler(CreateEmployeeCommandHandler)

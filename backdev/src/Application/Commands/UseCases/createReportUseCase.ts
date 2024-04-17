@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { ReportsRepository } from 'src/Infrastructure/Repositories/ReportsRepository';
-import { CreateReportCommandHandler } from '../commandHandler/CreateReportCommandHandler';
+import { CreateReportCommandHandler } from '../Handlers/CreateReportCommandHandler';
 import { IReportsRepository } from 'src/Domain/Repositories';
 
 @CommandHandler(CreateReportCommandHandler)

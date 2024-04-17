@@ -2,8 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { IReportsRepository } from 'src/Domain/Repositories';
 import { Report } from 'src/Domain/Entities';
-import { GetSquadDTO } from 'src/Application/Queries/DTOs/GetSquadDTO';
-import { GetPeriodDTO } from 'src/Application/Queries/DTOs/GetPeriodDTO';
+
+import { GetSpentHoursDTO } from 'src/Application/Queries/DTOs/GetSpentHoursDTO';
 
 @Injectable()
 export class ReportsRepository implements IReportsRepository {
@@ -30,21 +30,30 @@ export class ReportsRepository implements IReportsRepository {
     return Report.create(report);
   }
 
-  async findBySquadAndPeriod(
-    squadId: GetSquadDTO['id'],
-    period: GetPeriodDTO,
-  ): Promise<Report[]> {
-    const reports = await this.prisma.report.findMany({
-      where: {
-        employee: {
-          squadId,
+  async getSpentHoursBySquadAndPeriod(query: GetSpentHoursDTO): Promise<any> {
+    const { squadId, period } = query;
+    const { startDate, endDate } = period;
+
+    try {
+      const spentHours = await this.prisma.report.findMany({
+        where: {
+          employee: {
+            squadId,
+          },
+          createdAt: {
+            gte: startDate,
+            lte: endDate,
+          },
         },
-        createdAt: {
-          gte: period.startDate,
-          lte: period.endDate,
+        select: {
+          employeeId: true,
+          spentHours: true,
         },
-      },
-    });
-    return reports.map(Report.create);
+      });
+
+      return spentHours;
+    } catch (error) {
+      throw new Error(`Failed to fetch spent hours: ${error.message}`);
+    }
   }
 }

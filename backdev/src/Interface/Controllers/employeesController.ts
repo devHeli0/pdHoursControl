@@ -9,11 +9,11 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { CreateEmployeeCommandHandler } from 'src/Application/Commands/commandHandler/CreateEmployeeCommandHandler';
+import { CreateEmployeeCommandHandler } from 'src/Application/Commands/Handlers/CreateEmployeeCommandHandler';
 import { CreateEmployeeDTO } from 'src/Application/Commands/DTOs/CreateEmployeeDTO';
 import { FastifyReply } from 'fastify';
-import { GetEmployeeQueryHandler } from 'src/Application/Queries/queryHandler/GetEmployeeQueryHandler';
-import { GetSquadQueryHandler } from 'src/Application/Queries/queryHandler/GetSquadQueryHandler';
+import { GetSquadQueryHandler } from 'src/Application/Queries/Handlers/GetSquadQueryHandler';
+import { GetEmployeeQueryHandler } from 'src/Application/Queries/Handlers/GetEmployeeQueryHandler';
 
 @Controller('employees')
 export class EmployeesController {

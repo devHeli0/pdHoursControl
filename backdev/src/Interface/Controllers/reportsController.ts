@@ -8,19 +8,18 @@ import {
   Res,
   NotFoundException,
   ParseIntPipe,
-  Query,
 } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { FastifyReply } from 'fastify';
-import { CreateReportCommandHandler } from 'src/Application/Commands/commandHandler/CreateReportCommandHandler';
 import { CreateReportDTO } from 'src/Application/Commands/DTOs/CreateReportDTO';
-import { GetPeriodDTO } from 'src/Application/Queries/DTOs/GetPeriodDTO';
+import { CreateReportCommandHandler } from 'src/Application/Commands/Handlers/CreateReportCommandHandler';
+
 import { GetReportDTO } from 'src/Application/Queries/DTOs/GetReportDTO';
-import { GetEmployeeQueryHandler } from 'src/Application/Queries/queryHandler/GetEmployeeQueryHandler';
-import {
-  GetReportQueryHandler,
-  GetReportsBySquadAndPeriodQueryHandler,
-} from 'src/Application/Queries/queryHandler/GetReportQueryHandler';
+import { GetSpentHoursDTO } from 'src/Application/Queries/DTOs/GetSpentHoursDTO';
+import { GetEmployeeQueryHandler } from 'src/Application/Queries/Handlers/GetEmployeeQueryHandler';
+
+import { GetReportQueryHandler } from 'src/Application/Queries/Handlers/GetReportQueryHandler';
+import { GetSpentHoursBySquadAndPeriodQuery } from 'src/Application/Queries/Queries/GetSpentHoursBySquadAndPeriodQuery';
 
 @Controller('reports')
 export class ReportsController {
@@ -86,27 +85,7 @@ export class ReportsController {
     });
   }
   @Get('squad/:squadId')
-  async getReportsBySquadAndPeriod(
-    @Param('squadId', ParseIntPipe) squadId: number,
-    @Query('startDate') startDate: GetPeriodDTO['startDate'],
-    @Query('endDate') endDate: GetPeriodDTO['endDate'],
-  ) {
-    const period = { startDate, endDate };
-    return this.queryBus.execute(
-      new GetReportsBySquadAndPeriodQueryHandler(squadId, period),
-    );
-  }
-
-  @Get('squad/:squadId/totalSpentTime')
-  async getTotalSpentTimeBySquad(
-    @Param('squadId', ParseIntPipe) squadId: number,
-    @Query('startDate') startDate: GetPeriodDTO['startDate'],
-    @Query('endDate') endDate: GetPeriodDTO['endDate'],
-  ) {
-    const period = { startDate, endDate };
-    const totalTimeSpent = await this.queryBus.execute(
-      new GetReportsBySquadAndPeriodQueryHandler(squadId, period),
-    );
-    return { totalSpentTime: totalTimeSpent };
+  async getReportsBySquadAndPeriod(@Body() data: GetSpentHoursDTO) {
+    return this.queryBus.execute(new GetSpentHoursBySquadAndPeriodQuery(data));
   }
 }

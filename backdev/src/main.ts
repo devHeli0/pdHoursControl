@@ -4,8 +4,8 @@ import {
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
 import helmet from '@fastify/helmet';
-import { AppModule } from './app.module';
 import { ValidationPipe } from './Infrastructure/Middlewares/validationPipe';
+import { AppModule } from './Infrastructure/Modules';
 
 async function bootstrap() {
   try {

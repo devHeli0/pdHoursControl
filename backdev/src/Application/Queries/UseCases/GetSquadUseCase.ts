@@ -2,7 +2,7 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Squad } from '@prisma/client';
 
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { GetSquadQueryHandler } from '../queryHandler/GetSquadQueryHandler';
+import { GetSquadQueryHandler } from '../Handlers/GetSquadQueryHandler';
 import { SquadsRepository } from 'src/Infrastructure/Repositories/SquadsRepository';
 
 @Injectable()

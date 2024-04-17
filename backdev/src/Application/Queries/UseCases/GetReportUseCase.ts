@@ -2,7 +2,7 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Report } from '@prisma/client';
 
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { GetReportQueryHandler } from '../queryHandler/GetReportQueryHandler';
+import { GetReportQueryHandler } from '../Handlers/GetReportQueryHandler';
 import { ReportsRepository } from 'src/Infrastructure/Repositories/ReportsRepository';
 import { IReportsRepository } from 'src/Domain/Repositories';
 
