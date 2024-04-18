@@ -2,7 +2,6 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { IReportsRepository } from 'src/Domain/Repositories';
 import { Report } from 'src/Domain/Entities';
-
 import { GetSpentHoursDTO } from 'src/Application/Queries/DTOs/GetSpentHoursDTO';
 
 @Injectable()
@@ -33,6 +32,8 @@ export class ReportsRepository implements IReportsRepository {
   async getSpentHoursBySquadAndPeriod(query: GetSpentHoursDTO): Promise<any> {
     const { squadId, period } = query;
     const { startDate, endDate } = period;
+    const validStartDate = new Date(startDate).toISOString();
+    const validEndDate = new Date(endDate).toISOString();
     try {
       const spentHours = await this.prisma.report.findMany({
         where: {
@@ -40,8 +41,8 @@ export class ReportsRepository implements IReportsRepository {
             squadId,
           },
           createdAt: {
-            gte: startDate,
-            lte: endDate,
+            gte: validStartDate,
+            lte: validEndDate,
           },
         },
         select: {
