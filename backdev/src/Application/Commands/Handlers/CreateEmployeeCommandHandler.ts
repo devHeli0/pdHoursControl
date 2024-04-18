@@ -1,9 +1,14 @@
-import { GetSquadDTO } from 'src/Application/Queries/DTOs/GetSquadDTO';
+import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { CreateEmployeeCommand } from '../Commands/CreateEmployeeCommand';
+import { CreateEmployeeUseCase } from '../UseCases/CreateEmployeeUseCase';
 
-export class CreateEmployeeCommandHandler {
-  constructor(
-    public readonly name: string,
-    public readonly estimatedHours: number,
-    public readonly squadId: GetSquadDTO['id'],
-  ) {}
+@CommandHandler(CreateEmployeeCommand)
+export class CreateEmployeeCommandHandler
+  implements ICommandHandler<CreateEmployeeCommand>
+{
+  constructor(private readonly createEmployeeUseCase: CreateEmployeeUseCase) {}
+
+  async execute(command: CreateEmployeeCommand): Promise<void> {
+    await this.createEmployeeUseCase.execute(command.data);
+  }
 }

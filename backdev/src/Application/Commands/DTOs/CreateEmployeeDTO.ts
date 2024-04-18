@@ -1,24 +1,28 @@
-import { IsNotEmpty, IsNumber, Min, IsOptional, Max } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsNumber,
+  Min,
+  Max,
+  MinLength,
+  MaxLength,
+} from 'class-validator';
 import { GetSquadDTO } from 'src/Application/Queries/DTOs/GetSquadDTO';
 
-const hourMsg: string = 'Estimated hours must be between 1h and 12h';
+const HOUR_MSG = 'Estimated hours must be between 1 and 12 hours';
 
 export class CreateEmployeeDTO {
   @IsNotEmpty({ message: 'Name is required' })
-  name: string;
+  @MinLength(1, { message: 'Name must be at least 1 character long' })
+  @MaxLength(255, { message: 'Name must not exceed 255 characters' })
+  readonly name: string;
 
   @IsNotEmpty({ message: 'Estimated hours is required' })
   @IsNumber({}, { message: 'Estimated hours must be a number' })
-  @Min(0, { message: hourMsg })
-  @Max(12, { message: hourMsg })
-  estimatedHours: number;
+  @Min(1, { message: HOUR_MSG })
+  @Max(12, { message: HOUR_MSG })
+  readonly estimatedHours: number;
 
   @IsNotEmpty({ message: 'Squad ID is required' })
   @IsNumber({}, { message: 'Squad ID must be a number' })
-  squadId: GetSquadDTO['id'];
-
-  @IsOptional()
-  id?: number;
-
-  reports?: any[]; // Define the type of reports explicitly
+  readonly squadId: GetSquadDTO['id'];
 }

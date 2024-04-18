@@ -14,10 +14,8 @@ export class ValidationPipe implements PipeTransform<any> {
       return value;
     }
 
-    console.log(metatype);
-
     // Check if metatype is defined before using it
-    if (!value || typeof value !== 'object') {
+    if (typeof value !== 'object') {
       throw new BadRequestException('Validation failed');
     }
 
@@ -28,8 +26,7 @@ export class ValidationPipe implements PipeTransform<any> {
       const errorMessage = errors
         .map((error) => Object.values(error.constraints))
         .join(', ');
-      console.error('Validation failed:', errorMessage); // Log detailed errors
-      // throw new BadRequestException(errorMessage);
+      throw new BadRequestException(errorMessage);
     }
 
     return value;

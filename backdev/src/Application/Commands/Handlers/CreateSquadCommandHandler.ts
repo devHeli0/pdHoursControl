@@ -1,5 +1,5 @@
 import { ICommandHandler, CommandHandler } from '@nestjs/cqrs';
-import { CreateSquadUseCase } from '../UseCases/createSquadUseCase';
+import { CreateSquadUseCase } from '../UseCases/CreateSquadUseCase';
 import CreateSquadCommand from '../Commands/CreateSquadCommand';
 
 @CommandHandler(CreateSquadCommand)

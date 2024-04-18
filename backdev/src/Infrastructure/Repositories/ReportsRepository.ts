@@ -3,19 +3,20 @@ import { PrismaService } from '../prisma/prisma.service';
 import { IReportsRepository } from 'src/Domain/Repositories';
 import { Report } from 'src/Domain/Entities';
 import { GetSpentHoursDTO } from 'src/Application/Queries/DTOs/GetSpentHoursDTO';
+import { CreateReportDTO } from 'src/Application/Commands/DTOs/CreateReportDTO';
 
 @Injectable()
 export class ReportsRepository implements IReportsRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(
-    description: string,
-    employeeId: number,
-    spentHours: number,
-  ): Promise<Report> {
+  async create(data: CreateReportDTO): Promise<Report> {
+    const { description, employeeId, spentHours } = data;
+
     const createdReport = await this.prisma.report.create({
       data: { description, employeeId, spentHours },
     });
+
+    // Convert the Prisma response to a Squad domain entity
     return Report.create(createdReport);
   }
 
