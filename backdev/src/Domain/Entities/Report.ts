@@ -1,5 +1,4 @@
 import { CreateReportDTO } from 'src/Application/Commands/DTOs/CreateReportDTO';
-import { IReportsRepository } from '../Repositories';
 
 class Report {
   private id: number;
@@ -30,12 +29,6 @@ class Report {
     );
   }
 
-  static findById(
-    repository: IReportsRepository,
-    id: number,
-  ): Promise<Report | null> {
-    return repository.findById(id);
-  }
   getId(): number {
     return this.id;
   }
