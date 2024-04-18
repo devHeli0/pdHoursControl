@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { GetSpentHoursBySquadAndPeriodQueryHandler } from 'src/Application/Queries/Handlers/GetSpentHoursBySquadAndPeriodQueryHandler';
-import { GetReportUseCase } from 'src/Application/Queries/UseCases/GetReportUseCase';
 import { ReportsController } from 'src/Interface/Controllers/reportsController';
 import { ReportsRepository } from '../Repositories/ReportsRepository';
 import { PrismaModule } from '../prisma/prisma.module';
@@ -19,7 +18,6 @@ import { CreateReportCommandHandler } from 'src/Application/Commands/Handlers/Cr
     CreateReportUseCase,
     CreateReportCommandHandler,
     // Query
-    GetReportUseCase,
     GetSpentHoursBySquadAndPeriodQueryHandler,
     GetSpentHoursBySquadAndPeriodUseCase,
   ],
@@ -29,7 +27,6 @@ import { CreateReportCommandHandler } from 'src/Application/Commands/Handlers/Cr
     // Command
     CreateReportUseCase,
     // Query
-    GetReportUseCase,
     GetSpentHoursBySquadAndPeriodQueryHandler,
     GetSpentHoursBySquadAndPeriodUseCase,
   ],

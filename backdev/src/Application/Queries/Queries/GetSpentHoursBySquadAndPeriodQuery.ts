@@ -1,5 +1,5 @@
+import { IQuery } from '@nestjs/cqrs';
 import { GetSpentHoursDTO } from '../DTOs/GetSpentHoursDTO';
-//implements IQuery
-export class GetSpentHoursBySquadAndPeriodQuery {
+export class GetSpentHoursBySquadAndPeriodQuery implements IQuery {
   constructor(public readonly data: GetSpentHoursDTO) {}
 }
