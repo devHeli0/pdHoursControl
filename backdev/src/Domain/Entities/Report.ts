@@ -1,4 +1,5 @@
 import { CreateReportDTO } from 'src/Application/Commands/DTOs/CreateReportDTO';
+import { GetSpentHoursReplyDTO } from 'src/Application/Queries/DTOs/GetSpentHoursReplyDTO';
 
 class Report {
   private id: number;
@@ -27,6 +28,15 @@ class Report {
       reportData.employeeId,
       reportData.spentHours,
     );
+  }
+
+  static getSpentHoursBySquadAndPeriod(
+    response: GetSpentHoursReplyDTO[],
+  ): GetSpentHoursReplyDTO[] {
+    return response.map((item) => ({
+      employeeId: item.employeeId,
+      spentHours: item.spentHours,
+    }));
   }
 
   getId(): number {

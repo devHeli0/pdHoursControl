@@ -4,6 +4,7 @@ import { IReportsRepository } from 'src/Domain/Repositories';
 import { Report } from 'src/Domain/Entities';
 import { GetSpentHoursDTO } from 'src/Application/Queries/DTOs/GetSpentHoursDTO';
 import { CreateReportDTO } from 'src/Application/Commands/DTOs/CreateReportDTO';
+import { GetSpentHoursReplyDTO } from 'src/Application/Queries/DTOs/GetSpentHoursReplyDTO';
 
 @Injectable()
 export class ReportsRepository implements IReportsRepository {
@@ -20,7 +21,9 @@ export class ReportsRepository implements IReportsRepository {
     return Report.create(createdReport);
   }
 
-  async getSpentHoursBySquadAndPeriod(query: GetSpentHoursDTO): Promise<any> {
+  async getSpentHoursBySquadAndPeriod(
+    query: GetSpentHoursDTO,
+  ): Promise<GetSpentHoursReplyDTO[]> {
     const { squadId, period } = query;
     const { startDate, endDate } = period;
     const validStartDate = new Date(startDate).toISOString();
@@ -45,6 +48,6 @@ export class ReportsRepository implements IReportsRepository {
     if (!spentHours) {
       throw new Error(`Failed to fetch spent hours: ${spentHours}`);
     }
-    return spentHours;
+    return Report.getSpentHoursBySquadAndPeriod(spentHours);
   }
 }
