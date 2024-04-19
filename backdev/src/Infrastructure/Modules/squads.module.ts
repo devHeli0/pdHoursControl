@@ -10,12 +10,14 @@ import { SquadsController } from 'src/Interface/Controllers/squadsController';
   imports: [PrismaModule, CqrsModule],
   controllers: [SquadsController],
   providers: [
+    // Repository
     SquadsRepository,
     //Command
     CreateSquadUseCase,
     CreateSquadCommandHandler,
   ],
   exports: [
+    // Repository
     SquadsRepository,
     //Command
     CreateSquadUseCase,

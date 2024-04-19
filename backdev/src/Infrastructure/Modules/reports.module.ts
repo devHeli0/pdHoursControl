@@ -7,6 +7,8 @@ import { PrismaModule } from '../prisma/prisma.module';
 import { GetSpentHoursBySquadAndPeriodUseCase } from 'src/Application/Queries/UseCases/GetSpentHoursBySquadAndPeriodUseCase';
 import { CreateReportUseCase } from 'src/Application/Commands/UseCases/CreateReportUseCase';
 import { CreateReportCommandHandler } from 'src/Application/Commands/Handlers/CreateReportCommandHandler';
+import { GetTotalSpentHoursUseCase } from 'src/Application/Queries/UseCases/GetTotalSpentHoursUseCase';
+import { GetTotalSpentHoursQueryHandler } from 'src/Application/Queries/Handlers/GetTotalSpentHoursQueryHandler';
 
 @Module({
   imports: [PrismaModule, CqrsModule],
@@ -19,6 +21,8 @@ import { CreateReportCommandHandler } from 'src/Application/Commands/Handlers/Cr
     CreateReportCommandHandler,
     // Query
     GetSpentHoursBySquadAndPeriodQueryHandler,
+    GetTotalSpentHoursQueryHandler,
+    GetTotalSpentHoursUseCase,
     GetSpentHoursBySquadAndPeriodUseCase,
   ],
   exports: [
@@ -29,6 +33,8 @@ import { CreateReportCommandHandler } from 'src/Application/Commands/Handlers/Cr
     // Query
     GetSpentHoursBySquadAndPeriodQueryHandler,
     GetSpentHoursBySquadAndPeriodUseCase,
+    GetTotalSpentHoursQueryHandler,
+    GetTotalSpentHoursUseCase,
   ],
 })
 export class ReportsModule {}

@@ -5,6 +5,7 @@ import { Report } from 'src/Domain/Entities';
 import { GetSpentHoursDTO } from 'src/Application/Queries/DTOs/GetSpentHoursDTO';
 import { CreateReportDTO } from 'src/Application/Commands/DTOs/CreateReportDTO';
 import { GetSpentHoursReplyDTO } from 'src/Application/Queries/DTOs/GetSpentHoursReplyDTO';
+import { GetReportDTO } from 'src/Application/Queries/DTOs/GetReportDTO';
 
 @Injectable()
 export class ReportsRepository implements IReportsRepository {
@@ -49,5 +50,34 @@ export class ReportsRepository implements IReportsRepository {
       throw new Error(`Failed to fetch spent hours: ${spentHours}`);
     }
     return Report.getSpentHoursBySquadAndPeriod(spentHours);
+  }
+
+  async getTotalSpentHoursBySquadAndPeriod(
+    query: GetSpentHoursDTO,
+  ): Promise<GetReportDTO['spentHours']> {
+    const { squadId, period } = query;
+    const { startDate, endDate } = period;
+    const validStartDate = new Date(startDate).toISOString();
+    const validEndDate = new Date(endDate).toISOString();
+
+    const spentHours = await this.prisma.report.findMany({
+      where: {
+        employee: {
+          squadId,
+        },
+        createdAt: {
+          gte: validStartDate,
+          lte: validEndDate,
+        },
+      },
+      select: {
+        spentHours: true,
+      },
+    });
+
+    if (!spentHours) {
+      return 0;
+    }
+    return spentHours.reduce((total, entry) => total + entry.spentHours, 0);
   }
 }
