@@ -2,10 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { IReportsRepository } from 'src/Domain/Repositories';
 import { Report } from 'src/Domain/Entities';
-import { GetSpentHoursDTO } from 'src/Application/Queries/DTOs/GetSpentHoursDTO';
 import { CreateReportDTO } from 'src/Application/Commands/DTOs/CreateReportDTO';
-import { GetSpentHoursReplyDTO } from 'src/Application/Queries/DTOs/GetSpentHoursReplyDTO';
-import { GetReportDTO } from 'src/Application/Queries/DTOs/GetReportDTO';
+import { GetAverageSpentHoursReplyDTO } from 'src/Application/Queries/DTOs/Reply/GetAverageSpentHoursReplyDTO';
+import { GetSpentHoursReplyDTO } from 'src/Application/Queries/DTOs/Reply/GetSpentHoursReplyDTO';
+import { GetReportDTO } from 'src/Application/Queries/DTOs/Request/GetReportDTO';
+import { GetSpentHoursDTO } from 'src/Application/Queries/DTOs/Request/GetSpentHoursDTO';
 
 @Injectable()
 export class ReportsRepository implements IReportsRepository {
@@ -22,7 +23,7 @@ export class ReportsRepository implements IReportsRepository {
     return Report.create(createdReport);
   }
 
-  async getSpentHoursBySquadAndPeriod(
+  async getEmployeeSpentHours(
     query: GetSpentHoursDTO,
   ): Promise<GetSpentHoursReplyDTO[]> {
     const { squadId, period } = query;
@@ -49,7 +50,7 @@ export class ReportsRepository implements IReportsRepository {
     if (!spentHours) {
       throw new Error(`Failed to fetch spent hours: ${spentHours}`);
     }
-    return Report.getSpentHoursBySquadAndPeriod(spentHours);
+    return Report.getEmployeeSpentHours(spentHours);
   }
 
   async getTotalSpentHoursBySquadAndPeriod(
@@ -79,5 +80,44 @@ export class ReportsRepository implements IReportsRepository {
       return 0;
     }
     return spentHours.reduce((total, entry) => total + entry.spentHours, 0);
+  }
+
+  async getAverageSpentHoursBySquadAndPeriod(
+    query: GetSpentHoursDTO,
+  ): Promise<GetAverageSpentHoursReplyDTO> {
+    const { squadId, period } = query;
+    const { startDate, endDate } = period;
+    const validStartDate = new Date(startDate).toISOString();
+    const validEndDate = new Date(endDate).toISOString();
+
+    const reports = await this.prisma.report.findMany({
+      where: {
+        employee: {
+          squadId,
+        },
+        AND: {
+          createdAt: {
+            gte: validStartDate,
+            lte: validEndDate,
+          },
+        },
+      },
+      select: {
+        spentHours: true,
+      },
+    });
+
+    const totalHours = reports.reduce(
+      (acc, report) => acc + report.spentHours,
+      0,
+    );
+    const totalDays = Math.ceil(
+      (new Date(endDate).getTime() - new Date(startDate).getTime()) /
+        (1000 * 60 * 60 * 24),
+    );
+
+    return {
+      averageSpentHoursPerDay: totalHours / totalDays,
+    };
   }
 }

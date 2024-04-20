@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ReportsRepository } from 'src/Infrastructure/Repositories/ReportsRepository';
-import { GetSpentHoursDTO } from '../DTOs/GetSpentHoursDTO';
+import { GetSpentHoursDTO } from '../DTOs/Request/GetSpentHoursDTO';
 
 @Injectable()
 export class GetTotalSpentHoursUseCase {

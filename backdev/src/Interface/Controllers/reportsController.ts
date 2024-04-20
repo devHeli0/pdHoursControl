@@ -12,8 +12,10 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { FastifyReply } from 'fastify';
 import { CreateReportCommand } from 'src/Application/Commands/Commands/CreateReportCommand';
 import { CreateReportDTO } from 'src/Application/Commands/DTOs/CreateReportDTO';
-import { GetSpentHoursDTO } from 'src/Application/Queries/DTOs/GetSpentHoursDTO';
-import { GetSpentHoursBySquadAndPeriodQuery } from 'src/Application/Queries/Queries/GetSpentHoursBySquadAndPeriodQuery';
+import { GetAverageSpentHoursReplyDTO } from 'src/Application/Queries/DTOs/Reply/GetAverageSpentHoursReplyDTO';
+import { GetSpentHoursDTO } from 'src/Application/Queries/DTOs/Request/GetSpentHoursDTO';
+import { GetAverageSpentHoursQuery } from 'src/Application/Queries/Queries/GetAverageSpentHoursQuery';
+import { GetEmployeeSpentHoursQuery } from 'src/Application/Queries/Queries/GetEmployeeSpentHoursQuery';
 import { GetTotalSpentHoursQuery } from 'src/Application/Queries/Queries/GetTotalSpentHoursQuery';
 
 @Controller('reports')
@@ -35,10 +37,18 @@ export class ReportsController {
     });
   }
 
-  @Post('employeeSpentHoursBySquadAndPeriod')
-  async getSpentHoursBySquadAndPeriod(@Body() data: GetSpentHoursDTO) {
-    const query = new GetSpentHoursBySquadAndPeriodQuery(data);
+  @Get('employeeSpentHours')
+  async getEmployeeSpentHours(
+    @Query('squadId', ParseIntPipe) squadId: GetSpentHoursDTO['squadId'],
+    @Query('startDate') startDate: GetSpentHoursDTO['period']['startDate'],
+    @Query('endDate') endDate: GetSpentHoursDTO['period']['endDate'],
+  ) {
+    const query = new GetEmployeeSpentHoursQuery({
+      squadId,
+      period: { startDate, endDate },
+    });
     const result = await this.queryBus.execute(query);
+
     return result;
   }
 
@@ -52,6 +62,22 @@ export class ReportsController {
       squadId,
       period: { startDate, endDate },
     });
+    const result = await this.queryBus.execute(query);
+
+    return result;
+  }
+
+  @Get('averageSpentHoursBySquadAndPeriod')
+  async getAverageHours(
+    @Query('squadId', ParseIntPipe) squadId: GetSpentHoursDTO['squadId'],
+    @Query('startDate') startDate: GetSpentHoursDTO['period']['startDate'],
+    @Query('endDate') endDate: GetSpentHoursDTO['period']['endDate'],
+  ): Promise<GetAverageSpentHoursReplyDTO> {
+    const query = new GetAverageSpentHoursQuery({
+      squadId,
+      period: { startDate, endDate },
+    });
+
     const result = await this.queryBus.execute(query);
 
     return result;

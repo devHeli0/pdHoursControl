@@ -1,4 +1,4 @@
-import { GetSquadDTO } from 'src/Application/Queries/DTOs/GetSquadDTO';
+import { GetSquadDTO } from 'src/Application/Queries/DTOs/Request/GetSquadDTO';
 
 class Employee {
   private readonly id?: number;

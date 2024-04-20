@@ -1,5 +1,5 @@
-import { GetEmployeeDTO } from './GetEmployeeDTO';
-import { GetReportDTO } from './GetReportDTO';
+import { GetEmployeeDTO } from '../Request/GetEmployeeDTO';
+import { GetReportDTO } from '../Request/GetReportDTO';
 
 export class GetSpentHoursReplyDTO {
   employeeId: GetEmployeeDTO['id'];

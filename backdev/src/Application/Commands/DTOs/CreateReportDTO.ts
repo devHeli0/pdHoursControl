@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsString, IsInt, Min, Max } from 'class-validator';
-import { GetEmployeeDTO } from 'src/Application/Queries/DTOs/GetEmployeeDTO';
+import { GetEmployeeDTO } from 'src/Application/Queries/DTOs/Request/GetEmployeeDTO';
 
 export class CreateReportDTO {
   @IsNotEmpty({ message: 'Description is required' })

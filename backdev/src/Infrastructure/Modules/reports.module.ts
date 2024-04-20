@@ -1,14 +1,16 @@
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
-import { GetSpentHoursBySquadAndPeriodQueryHandler } from 'src/Application/Queries/Handlers/GetSpentHoursBySquadAndPeriodQueryHandler';
+import { GetEmployeeSpentHoursQueryHandler } from 'src/Application/Queries/Handlers/GetEmployeeSpentHoursQueryHandler';
 import { ReportsController } from 'src/Interface/Controllers/reportsController';
 import { ReportsRepository } from '../Repositories/ReportsRepository';
 import { PrismaModule } from '../prisma/prisma.module';
-import { GetSpentHoursBySquadAndPeriodUseCase } from 'src/Application/Queries/UseCases/GetSpentHoursBySquadAndPeriodUseCase';
+import { GetEmployeeSpentHoursUseCase } from 'src/Application/Queries/UseCases/GetEmployeeSpentHoursUseCase';
 import { CreateReportUseCase } from 'src/Application/Commands/UseCases/CreateReportUseCase';
 import { CreateReportCommandHandler } from 'src/Application/Commands/Handlers/CreateReportCommandHandler';
 import { GetTotalSpentHoursUseCase } from 'src/Application/Queries/UseCases/GetTotalSpentHoursUseCase';
 import { GetTotalSpentHoursQueryHandler } from 'src/Application/Queries/Handlers/GetTotalSpentHoursQueryHandler';
+import { GetAverageSpentHoursQueryHandler } from 'src/Application/Queries/Handlers/GetAverageSpentHoursQueryHandler';
+import { GetAverageSpentHoursUseCase } from 'src/Application/Queries/UseCases/GetAverageSpentHoursUseCase';
 
 @Module({
   imports: [PrismaModule, CqrsModule],
@@ -20,10 +22,12 @@ import { GetTotalSpentHoursQueryHandler } from 'src/Application/Queries/Handlers
     CreateReportUseCase,
     CreateReportCommandHandler,
     // Query
-    GetSpentHoursBySquadAndPeriodQueryHandler,
+    GetEmployeeSpentHoursQueryHandler,
     GetTotalSpentHoursQueryHandler,
+    GetAverageSpentHoursQueryHandler,
+    GetAverageSpentHoursUseCase,
     GetTotalSpentHoursUseCase,
-    GetSpentHoursBySquadAndPeriodUseCase,
+    GetEmployeeSpentHoursUseCase,
   ],
   exports: [
     // Repository
@@ -31,8 +35,8 @@ import { GetTotalSpentHoursQueryHandler } from 'src/Application/Queries/Handlers
     // Command
     CreateReportUseCase,
     // Query
-    GetSpentHoursBySquadAndPeriodQueryHandler,
-    GetSpentHoursBySquadAndPeriodUseCase,
+    GetEmployeeSpentHoursQueryHandler,
+    GetEmployeeSpentHoursUseCase,
     GetTotalSpentHoursQueryHandler,
     GetTotalSpentHoursUseCase,
   ],

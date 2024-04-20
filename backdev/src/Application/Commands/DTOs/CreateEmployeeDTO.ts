@@ -6,7 +6,7 @@ import {
   MinLength,
   MaxLength,
 } from 'class-validator';
-import { GetSquadDTO } from 'src/Application/Queries/DTOs/GetSquadDTO';
+import { GetSquadDTO } from 'src/Application/Queries/DTOs/Request/GetSquadDTO';
 
 const HOUR_MSG = 'Estimated hours must be between 1 and 12 hours';
 

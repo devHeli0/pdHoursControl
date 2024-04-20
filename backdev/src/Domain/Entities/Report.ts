@@ -1,5 +1,5 @@
 import { CreateReportDTO } from 'src/Application/Commands/DTOs/CreateReportDTO';
-import { GetSpentHoursReplyDTO } from 'src/Application/Queries/DTOs/GetSpentHoursReplyDTO';
+import { GetSpentHoursReplyDTO } from 'src/Application/Queries/DTOs/Reply/GetSpentHoursReplyDTO';
 
 class Report {
   private id: number;
@@ -30,7 +30,7 @@ class Report {
     );
   }
 
-  static getSpentHoursBySquadAndPeriod(
+  static getEmployeeSpentHours(
     response: GetSpentHoursReplyDTO[],
   ): GetSpentHoursReplyDTO[] {
     return response.map((item) => ({
