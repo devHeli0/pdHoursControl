@@ -13,9 +13,12 @@ import { FastifyReply } from 'fastify';
 import { CreateReportCommand } from 'src/Application/Commands/Commands/CreateReportCommand';
 import { CreateReportDTO } from 'src/Application/Commands/DTOs/CreateReportDTO';
 import { GetAverageSpentHoursReplyDTO } from 'src/Application/Queries/DTOs/Reply/GetAverageSpentHoursReplyDTO';
+import { GetReportsReplyDTO } from 'src/Application/Queries/DTOs/Reply/GetReportsReplyDTO';
+import { GetAllDataDTO } from 'src/Application/Queries/DTOs/Request/GetAllDataDTO';
 import { GetSpentHoursDTO } from 'src/Application/Queries/DTOs/Request/GetSpentHoursDTO';
 import { GetAverageSpentHoursQuery } from 'src/Application/Queries/Queries/GetAverageSpentHoursQuery';
 import { GetEmployeeSpentHoursQuery } from 'src/Application/Queries/Queries/GetEmployeeSpentHoursQuery';
+import { GetReportsQuery } from 'src/Application/Queries/Queries/GetReportsQuery';
 import { GetTotalSpentHoursQuery } from 'src/Application/Queries/Queries/GetTotalSpentHoursQuery';
 
 @Controller('reports')
@@ -81,5 +84,18 @@ export class ReportsController {
     const result = await this.queryBus.execute(query);
 
     return result;
+  }
+
+  @Get()
+  async getAllReports(
+    @Query('empty') empty: GetAllDataDTO['empty'],
+    @Res() reply: FastifyReply,
+  ): Promise<GetReportsReplyDTO & HttpStatus> {
+    const query = new GetReportsQuery(empty);
+    const result = await this.queryBus.execute(query);
+    return reply.status(HttpStatus.OK).send({
+      success: true,
+      data: result,
+    });
   }
 }

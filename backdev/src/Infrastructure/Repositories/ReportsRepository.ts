@@ -7,6 +7,7 @@ import { GetAverageSpentHoursReplyDTO } from 'src/Application/Queries/DTOs/Reply
 import { GetSpentHoursReplyDTO } from 'src/Application/Queries/DTOs/Reply/GetSpentHoursReplyDTO';
 import { GetReportDTO } from 'src/Application/Queries/DTOs/Request/GetReportDTO';
 import { GetSpentHoursDTO } from 'src/Application/Queries/DTOs/Request/GetSpentHoursDTO';
+import { GetReportsReplyDTO } from 'src/Application/Queries/DTOs/Reply/GetReportsReplyDTO';
 
 @Injectable()
 export class ReportsRepository implements IReportsRepository {
@@ -121,17 +122,17 @@ export class ReportsRepository implements IReportsRepository {
     };
   }
 
-  // async getAllReports(): Promise<GetAllDataReplyDTO> {
-  //   const reports = await this.prisma.report.findMany();
-  //   const reportList: Report[] = reports.map((report) => {
-  //     return {
-  //       id: report.id,
-  //       description: report.description,
-  //       employeeId: report.employeeId,
-  //       spentHours: report.spentHours,
-  //       createdAt: report.createdAt,
-  //     };
-  //   });
-  //   return { list: reportList };
-  // }
+  async getAllReports(): Promise<GetReportsReplyDTO> {
+    const reports = await this.prisma.report.findMany();
+    const reportList: Report[] = reports.map((report) => {
+      return {
+        id: report.id,
+        description: report.description,
+        employeeId: report.employeeId,
+        spentHours: report.spentHours,
+        createdAt: report.createdAt,
+      };
+    });
+    return { list: reportList };
+  }
 }
