@@ -1,28 +1,24 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { IEmployeesRepository } from 'src/Domain/Repositories';
 import { Employee } from 'src/Domain/Entities';
+import { CreateEmployeeDTO } from 'src/Application/Commands/DTOs/CreateEmployeeDTO';
+import { GetEmployeesReplyDTO } from 'src/Application/Queries/DTOs/Reply/GetEmployeesReplyDTO';
 
 @Injectable()
-export class EmployeesRepository implements IEmployeesRepository {
+export class EmployeesRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(employeeData: Employee): Promise<Employee> {
-    const newEmployeeData = {
+  async create(employeeData: CreateEmployeeDTO): Promise<Employee> {
+    const { name, estimatedHours, squadId } = employeeData;
+    const createdEmployee = await this.prisma.employee.create({
       data: {
-        name: employeeData.getName(),
-        estimatedHours: employeeData.getEstimatedHours(),
-        squadId: employeeData.getSquadId(),
+        name,
+        estimatedHours,
+        squadId,
       },
-    };
+    });
 
-    const createdEmployee = await this.prisma.employee.create(newEmployeeData);
-
-    return new Employee(
-      createdEmployee.name,
-      createdEmployee.estimatedHours,
-      createdEmployee.squadId,
-    );
+    return this.mapToEntity(createdEmployee);
   }
 
   async findById(id: number): Promise<Employee | null> {
@@ -30,14 +26,16 @@ export class EmployeesRepository implements IEmployeesRepository {
       where: { id },
     });
 
-    if (!employee) {
-      return null;
-    }
+    return employee ? this.mapToEntity(employee) : null;
+  }
 
-    return new Employee(
-      employee.name,
-      employee.estimatedHours,
-      employee.squadId,
-    );
+  async getEmployees(): Promise<GetEmployeesReplyDTO> {
+    const employees = await this.prisma.employee.findMany();
+    return { list: employees.map(this.mapToEntity) };
+  }
+
+  private mapToEntity(data: any): Employee {
+    const { id, name, estimatedHours, squadId } = data;
+    return new Employee(name, estimatedHours, squadId, id);
   }
 }

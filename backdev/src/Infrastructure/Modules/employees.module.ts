@@ -6,6 +6,8 @@ import { EmployeesRepository } from 'src/Infrastructure/Repositories/EmployeesRe
 import { CqrsModule } from '@nestjs/cqrs';
 import { CreateEmployeeCommandHandler } from 'src/Application/Commands/Handlers/CreateEmployeeCommandHandler';
 import { SquadsRepository } from '../Repositories/SquadsRepository';
+import { GetEmployeesQueryHandler } from 'src/Application/Queries/Handlers/GetEmployeesQueryHandler';
+import { GetEmployeesUseCase } from 'src/Application/Queries/UseCases/GetEmployeesUseCase';
 
 @Module({
   imports: [PrismaModule, CqrsModule],
@@ -17,6 +19,9 @@ import { SquadsRepository } from '../Repositories/SquadsRepository';
     // Command
     CreateEmployeeUseCase,
     CreateEmployeeCommandHandler,
+    // Query
+    GetEmployeesQueryHandler,
+    GetEmployeesUseCase,
   ],
   exports: [
     // Repository
