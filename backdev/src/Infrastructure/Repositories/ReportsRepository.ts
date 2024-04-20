@@ -19,7 +19,7 @@ export class ReportsRepository implements IReportsRepository {
       data: { description, employeeId, spentHours },
     });
 
-    // Convert the Prisma response to a Squad domain entity
+    // Convert the Prisma response to a Report domain entity
     return Report.create(createdReport);
   }
 
@@ -120,4 +120,18 @@ export class ReportsRepository implements IReportsRepository {
       averageSpentHoursPerDay: totalHours / totalDays,
     };
   }
+
+  // async getAllReports(): Promise<GetAllDataReplyDTO> {
+  //   const reports = await this.prisma.report.findMany();
+  //   const reportList: Report[] = reports.map((report) => {
+  //     return {
+  //       id: report.id,
+  //       description: report.description,
+  //       employeeId: report.employeeId,
+  //       spentHours: report.spentHours,
+  //       createdAt: report.createdAt,
+  //     };
+  //   });
+  //   return { list: reportList };
+  // }
 }

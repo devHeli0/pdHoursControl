@@ -13,8 +13,8 @@ export class GetAverageSpentHoursQueryHandler
   ) {}
 
   async execute(
-    command: GetAverageSpentHoursQuery,
+    query: GetAverageSpentHoursQuery,
   ): Promise<GetAverageSpentHoursReplyDTO> {
-    return await this.getAverageSpentHoursUseCase.execute(command.data);
+    return await this.getAverageSpentHoursUseCase.execute(query.data);
   }
 }

@@ -2,25 +2,13 @@ import { CreateReportDTO } from 'src/Application/Commands/DTOs/CreateReportDTO';
 import { GetSpentHoursReplyDTO } from 'src/Application/Queries/DTOs/Reply/GetSpentHoursReplyDTO';
 
 class Report {
-  private id: number;
-  private description: string;
-  private employeeId: number;
-  private spentHours: number;
-  private createdAt: Date;
-
   constructor(
-    description: string,
-    employeeId: number,
-    spentHours: number,
-    id?: number,
-    createdAt?: Date,
-  ) {
-    this.id = id;
-    this.description = description;
-    this.employeeId = employeeId;
-    this.spentHours = spentHours;
-    this.createdAt = createdAt;
-  }
+    public description: string,
+    public employeeId: number,
+    public spentHours: number,
+    public id?: number,
+    public createdAt?: Date,
+  ) {}
 
   static create(reportData: CreateReportDTO): Report {
     return new Report(
@@ -37,26 +25,6 @@ class Report {
       employeeId: item.employeeId,
       spentHours: item.spentHours,
     }));
-  }
-
-  getId(): number {
-    return this.id;
-  }
-
-  getDescription(): string {
-    return this.description;
-  }
-
-  getEmployeeId(): number {
-    return this.employeeId;
-  }
-
-  getSpentHours(): number {
-    return this.spentHours;
-  }
-
-  getCreatedAt(): Date {
-    return this.createdAt;
   }
 }
 

@@ -3,6 +3,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { ISquadsRepository } from 'src/Domain/Repositories';
 import { Squad } from 'src/Domain/Entities';
 import { CreateSquadDTO } from 'src/Application/Commands/DTOs/CreateSquadDTO';
+import { GetSquadsReplyDTO } from 'src/Application/Queries/DTOs/Reply/GetSquadsReplyDTO';
 
 @Injectable()
 export class SquadsRepository implements ISquadsRepository {
@@ -29,5 +30,14 @@ export class SquadsRepository implements ISquadsRepository {
       throw new NotFoundException(`Squad with ID ${id} not found`);
     }
     return Squad.create(squad);
+  }
+
+  async getAllSquads(): Promise<GetSquadsReplyDTO> {
+    const squads = await this.prisma.squad.findMany();
+    const squadList: Squad[] = squads.map((squad) => ({
+      id: squad.id,
+      name: squad.name,
+    }));
+    return { list: squadList };
   }
 }
