@@ -54,10 +54,10 @@ const SquadList: React.FC = () => {
             <tbody className="bg-white divide-y divide-gray-300">
               {squads.map((squad) => (
                 <tr key={squad.id}>
-                  <td className="text-center sm:w-2/3 md:w-1/2 lg:w-2/3 whitespace-nowrap">
+                  <td className="text-center px-6 py-3 sm:w-2/3 md:w-1/2 lg:w-2/3 whitespace-nowrap">
                     {squad.id}
                   </td>
-                  <td className="px-6 py-3 sm:w-1/6 md:w-1/4 lg:w-1/6 text-center">
+                  <td className="px-6 py-3 sm:w-1/6 md:w-1/4 lg:w-1/6 text-center whitespace-nowrap">
                     {squad.name}
                   </td>
                   <td className="px-6 py-3 text-center whitespace-nowrap">
