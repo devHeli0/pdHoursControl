@@ -19,7 +19,7 @@ const CreateSquadModal: React.FC<CreateSquadModalProps> = ({
     try {
       const squadData = { name: squadName }
       await createSquad(squadData).unwrap()
-      onClose() // Fechar a modal após a criação bem-sucedida do esquadrão
+      onClose() // Fechar a modal após a criação bem-sucedida da squad
     } catch (error) {
       console.error('Error creating squad:', error)
     }

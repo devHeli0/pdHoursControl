@@ -33,6 +33,20 @@ export const reportApi = createApi({
         params: { squadId, startDate, endDate },
       }),
     }),
+    getTotalSpentHours: builder.query({
+      query: ({ squadId, startDate, endDate }) => ({
+        url: 'reports/totalSpentHoursBySquadAndPeriod',
+        method: 'GET',
+        params: { squadId, startDate, endDate },
+      }),
+    }),
+    getAverageHours: builder.query({
+      query: ({ squadId, startDate, endDate }) => ({
+        url: 'reports/averageSpentHoursBySquadAndPeriod',
+        method: 'GET',
+        params: { squadId, startDate, endDate },
+      }),
+    }),
   }),
 })
 
@@ -40,4 +54,6 @@ export const {
   useCreateReportMutation,
   useGetAllReportsQuery,
   useGetEmployeeSpentHoursQuery,
+  useGetTotalSpentHoursQuery,
+  useGetAverageHoursQuery,
 } = reportApi

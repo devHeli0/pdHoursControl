@@ -2,7 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 
 import type { Report } from '../../services/types'
-import { useGetEmployeeSpentHoursQuery } from '../Report/reportAPI'
+import {
+  useGetEmployeeSpentHoursQuery,
+  useGetTotalSpentHoursQuery,
+  useGetAverageHoursQuery,
+} from '../Report/reportAPI'
 
 const SquadPage = () => {
   const { id } = useParams()
@@ -22,34 +26,53 @@ const SquadPage = () => {
     setEndDate(e.target.value)
   }
 
-  const handleFilterClick = () => {
-    // Perform filtering logic based on selected dates
-    // For now, let's log the selected dates
-    console.log('Start Date:', startDate)
-    console.log('End Date:', endDate)
-  }
-
   const { data, error, isLoading } = useGetEmployeeSpentHoursQuery({
     squadId: id,
     startDate: startDate,
     endDate: endDate,
   })
 
+  const {
+    data: totalSpentHours,
+    error: totalSpentHoursError,
+    isLoading: totalSpentHoursLoading,
+  } = useGetTotalSpentHoursQuery({
+    squadId: id,
+    startDate: startDate,
+    endDate: endDate,
+  })
+
+  const {
+    data: averageHours,
+    error: averageHoursError,
+    isLoading: averageHoursLoading,
+  } = useGetAverageHoursQuery({
+    squadId: id,
+    startDate: startDate,
+    endDate: endDate,
+  })
+
+  console.log(averageHours)
+
   useEffect(() => {
-    if (isLoading) {
-      // Handle loading state
-    }
-    if (error) {
-      // Handle error state
-    }
-  }, [isLoading, error])
+    // Handle loading and error states if needed
+  }, [
+    isLoading,
+    error,
+    totalSpentHoursLoading,
+    totalSpentHoursError,
+    averageHoursLoading,
+    averageHoursError,
+  ])
 
   return (
     <div className="flex flex-col items-start w-full">
       <div className="text-left">
         <h2 className="text-2xl ml-20 font-bold mb-4 mt-8">{squadName}</h2>
       </div>
-      <div className="justify-center inline-flex gap-10 mt-10mb-4 mx-auto">
+      <div className="justify-center inline-flex gap-10 mt-10 mb-4 mx-auto">
+        {' '}
+        {/* Corrected typo here */}
         <div className="flex flex-col items-center">
           <label
             htmlFor="start-date"
@@ -78,10 +101,7 @@ const SquadPage = () => {
             onChange={handleEndDateChange}
           />
         </div>
-        <button
-          onClick={handleFilterClick}
-          className="mt-6 w-48 h-10 bg-blue-500 text-white font-bold rounded-md"
-        >
+        <button className="mt-6 w-48 h-10 bg-blue-500 text-white font-bold rounded-md">
           Filter
         </button>
       </div>
@@ -122,6 +142,20 @@ const SquadPage = () => {
             </tbody>
           </table>
         </div>
+      </div>
+      <h3 className="text-xl font-bold text-center mb-4 mx-auto my-auto">
+        Horas totais da squad
+      </h3>
+      <div className="text-blue-500 font-bold text-4xl  mx-auto my-auto">
+        {totalSpentHours ? `${totalSpentHours} horas` : 'Loading...'}
+      </div>
+      <h3 className="text-xl font-bold text-center mb-4 mx-auto my-auto">
+        Média de horas por dia
+      </h3>
+      <div className="text-blue-500 font-bold text-4xl mx-auto my-auto">
+        {averageHours
+          ? `${averageHours.averageSpentHoursPerDay.toFixed(2)} horas`
+          : 'Loading...'}
       </div>
     </div>
   )
