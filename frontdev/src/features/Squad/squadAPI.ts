@@ -1,7 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import ky from 'ky'
 
-import type { getAllSquadsResponse } from '../../services/types'
+import type {
+  GetSquadByIdResponse,
+  getAllSquadsResponse,
+} from '../../services/types'
 
 const { VITE_API_URL } = import.meta.env
 
@@ -23,6 +26,12 @@ export const squadApi = createApi({
     getAllSquads: builder.query<getAllSquadsResponse, void>({
       query: () => ({
         url: '/squads',
+        method: 'GET',
+      }),
+    }),
+    getSquadById: builder.query<GetSquadByIdResponse, number>({
+      query: (id: number) => ({
+        url: `/squads/${id}`,
         method: 'GET',
       }),
     }),

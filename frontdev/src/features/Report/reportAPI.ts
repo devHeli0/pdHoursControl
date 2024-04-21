@@ -26,7 +26,18 @@ export const reportApi = createApi({
         method: 'GET',
       }),
     }),
+    getEmployeeSpentHours: builder.query({
+      query: ({ squadId, startDate, endDate }) => ({
+        url: 'reports/employeeSpentHours',
+        method: 'GET',
+        params: { squadId, startDate, endDate },
+      }),
+    }),
   }),
 })
 
-export const { useCreateReportMutation, useGetAllReportsQuery } = reportApi
+export const {
+  useCreateReportMutation,
+  useGetAllReportsQuery,
+  useGetEmployeeSpentHoursQuery,
+} = reportApi

@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import type { Squad } from '../../services/types'
 
@@ -8,18 +9,27 @@ import CreateSquadModal from './SquadModal'
 const SquadList: React.FC = () => {
   const { isLoading, error, data } = useGetAllSquadsQuery()
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const navigate = useNavigate()
 
   const openModal = () => setIsModalOpen(true)
   const closeModal = () => setIsModalOpen(false)
 
-  const renderItemButton = (squad: Squad) => (
-    <button
-      key={squad.id}
-      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-    >
-      Visitar Squad
-    </button>
-  )
+  const RenderItemButton = (squad: Squad) => {
+    const visitSquad = () => {
+      // Redirect to SquadPage and pass the squad ID as a URL parameter
+      navigate(`/squads/${squad.id}`, { state: { squadName: squad.name } })
+    }
+
+    return (
+      <button
+        key={squad.id}
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        onClick={visitSquad}
+      >
+        Visitar Squad
+      </button>
+    )
+  }
 
   const squads: Squad[] = data?.data.list || []
 
@@ -61,7 +71,7 @@ const SquadList: React.FC = () => {
                     {squad.name}
                   </td>
                   <td className="px-6 py-3 text-center whitespace-nowrap">
-                    {renderItemButton(squad)}
+                    {RenderItemButton(squad)}
                   </td>
                 </tr>
               ))}

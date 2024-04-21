@@ -1,3 +1,15 @@
+export type GetEmployeeSpentHoursResponse = {
+  employeeId: number
+  spentHours: number
+}[]
+
+export type GetSquadByIdResponse = {
+  success: boolean
+  data: {
+    squad: Squad
+  }
+}
+
 export type getAllSquadsResponse = {
   success: boolean
   data: {
@@ -28,6 +40,7 @@ export type Report = {
   id: number
   description: string
   employeeId: number
+  employee: Employee
   spentHours: number
   createdAt: Date
 }
