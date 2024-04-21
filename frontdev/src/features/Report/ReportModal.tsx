@@ -32,7 +32,6 @@ const CreateReportModal: React.FC<CreateReportModalProps> = ({
         description: description,
       }
 
-      console.log(reportData)
       await createReport(reportData).unwrap()
       onClose() // Close the modal after successful report creation
     } catch (error) {
@@ -87,7 +86,8 @@ const CreateReportModal: React.FC<CreateReportModalProps> = ({
               type="text"
               value={userId}
               onChange={(e) => setUserId(e.target.value)}
-              className="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:border-blue-500"
+              className={`border rounded-lg p-3 w-full focus:outline-none 
+    ${isError ? 'border-red-500' : 'border-gray-300 focus:border-blue-500'}`}
             />
           </div>
           <div className="relative">
@@ -103,7 +103,8 @@ const CreateReportModal: React.FC<CreateReportModalProps> = ({
               type="number"
               value={spentHours}
               onChange={(e) => setSpentHours(e.target.value)}
-              className="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:border-blue-500"
+              className={`border rounded-lg p-3 w-full focus:outline-none 
+              ${isError ? 'border-red-500' : 'border-gray-300 focus:border-blue-500'}`}
             />
           </div>
           <div className="relative">
@@ -118,7 +119,8 @@ const CreateReportModal: React.FC<CreateReportModalProps> = ({
               placeholder="Digite a descrição"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="border border-gray-300 rounded-lg p-3 w-full h-24 focus:outline-none focus:border-blue-500"
+              className={`border rounded-lg p-3 w-full focus:outline-none 
+    ${isError ? 'border-red-500' : 'border-gray-300 focus:border-blue-500'}`}
             />
           </div>
           <div className="relative">

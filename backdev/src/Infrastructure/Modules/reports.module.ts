@@ -11,6 +11,8 @@ import { GetTotalSpentHoursUseCase } from 'src/Application/Queries/UseCases/GetT
 import { GetTotalSpentHoursQueryHandler } from 'src/Application/Queries/Handlers/GetTotalSpentHoursQueryHandler';
 import { GetReportsQueryHandler } from 'src/Application/Queries/Handlers/GetReportsQueryHandler';
 import { GetReportsUseCase } from 'src/Application/Queries/UseCases/GetReportsUseCase';
+import { GetAverageSpentHoursQueryHandler } from 'src/Application/Queries/Handlers/GetAverageSpentHoursQueryHandler';
+import { GetAverageSpentHoursUseCase } from 'src/Application/Queries/UseCases/GetAverageSpentHoursUseCase';
 
 @Module({
   imports: [PrismaModule, CqrsModule],
@@ -22,6 +24,8 @@ import { GetReportsUseCase } from 'src/Application/Queries/UseCases/GetReportsUs
     CreateReportUseCase,
     CreateReportCommandHandler,
     // Query
+    GetAverageSpentHoursQueryHandler,
+    GetAverageSpentHoursUseCase,
     GetEmployeeSpentHoursQueryHandler,
     GetEmployeeSpentHoursUseCase,
     GetTotalSpentHoursQueryHandler,
@@ -35,6 +39,8 @@ import { GetReportsUseCase } from 'src/Application/Queries/UseCases/GetReportsUs
     // Command
     CreateReportUseCase,
     // Query
+    GetAverageSpentHoursQueryHandler,
+    GetAverageSpentHoursUseCase,
     GetEmployeeSpentHoursQueryHandler,
     GetEmployeeSpentHoursUseCase,
     GetTotalSpentHoursQueryHandler,

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import type { Squad } from '../../services/types'
+import EmptySquadsSVG from '../../utils/Frame 1.svg'
 
 import { useGetAllSquadsQuery } from './squadAPI'
 import CreateSquadModal from './SquadModal'
@@ -45,7 +46,18 @@ const SquadList: React.FC = () => {
         </div>
       )
     }
-
+    if (squads.length === 0) {
+      return (
+        <div className="inline justify-center items-center h-72 -mb-3 ">
+          <img
+            src={EmptySquadsSVG}
+            alt="emptySquads"
+            className="w-auto h-auto text-gray-500 pb-3.5 "
+          />
+          <p className="ml-4 text-gray-500">Nenhum squad disponível.</p>
+        </div>
+      )
+    }
     return (
       <div className="overflow-x-auto max-w-screen-md">
         <div className="max-h-72 overflow-y-auto">

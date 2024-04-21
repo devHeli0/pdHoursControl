@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
 import type { Employee } from '../../services/types'
+import EmptySquadsSVG from '../../utils/Frame 1.svg'
 
 import { useGetAllEmployeesQuery } from './employeeAPI'
 import CreateEmployeeModal from './EmployeeModal'
@@ -24,6 +25,19 @@ const EmployeeList: React.FC = () => {
         <div>
           <div>An error has occurred:</div>
           <div>{errMsg}</div>
+        </div>
+      )
+    }
+
+    if (employees.length !== 0) {
+      return (
+        <div className="inline justify-center items-center h-72 -mb-3 ">
+          <img
+            src={EmptySquadsSVG}
+            alt="emptySquads"
+            className="w-auto h-auto text-gray-500 pb-3.5 "
+          />
+          <p className="ml-4 text-gray-500">Nenhum squad disponível.</p>
         </div>
       )
     }
