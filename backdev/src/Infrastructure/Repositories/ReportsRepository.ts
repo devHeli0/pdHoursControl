@@ -45,6 +45,9 @@ export class ReportsRepository implements IReportsRepository {
       select: {
         employeeId: true,
         spentHours: true,
+        employee: true,
+        description: true,
+        createdAt: true,
       },
     });
 

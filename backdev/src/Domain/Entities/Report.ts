@@ -24,6 +24,9 @@ class Report {
     return response.map((item) => ({
       employeeId: item.employeeId,
       spentHours: item.spentHours,
+      employee: item.employee,
+      description: item.description,
+      createdAt: item.createdAt,
     }));
   }
 }
