@@ -1,18 +1,14 @@
-// export type DocsList = Array<{ name: string; url: string }>
-
-// export interface Employee {
-//   id: number
-//   name: string
-//   estimatedHours: number
-//   squadId: number
-//   squad: Squad
-//   reports: Report[]
-// }
-
 export type getAllSquadsResponse = {
   success: boolean
   data: {
     list: Squad[]
+  }
+}
+
+export type getAllEmployeesResponse = {
+  success: boolean
+  data: {
+    list: { list: Employee[] }
   }
 }
 
@@ -33,21 +29,13 @@ export type Report = {
   description: string
   employeeId: number
   spentHours: number
-  createdAt: string
+  createdAt: Date
 }
 
-// export type GetSquadsResponse = {
-//   success: boolean
-//   data: {
-//     list: Squad[]
-//   }
-// }
-
-// export interface Report {
-//   id: number
-//   description: string
-//   employeeId: number
-//   spentHours: number
-//   createdAt: Date
-//   employee: Employee
-// }
+export type Employee = {
+  id: number
+  name: string
+  estimatedHours: number
+  squadId: number
+  reports: Report[]
+}

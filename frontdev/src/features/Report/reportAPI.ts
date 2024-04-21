@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import ky from 'ky'
 
-import type { Report, getAllReportsResponse } from '../../services/types'
+import type { getAllReportsResponse } from '../../services/types'
 
 const { VITE_API_URL } = import.meta.env
 
