@@ -1,7 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import ky from 'ky'
 
-import type { getAllEmployeesResponse } from '../../services/types'
+import type {
+  GetEmployeeByIdResponse,
+  getAllEmployeesResponse,
+} from '../../services/types'
 
 const { VITE_API_URL } = import.meta.env
 
@@ -19,6 +22,12 @@ export const employeeApi = createApi({
         body: employeeData,
       }),
     }),
+    getEmployeeById: builder.query<GetEmployeeByIdResponse, number>({
+      query: (id: number) => ({
+        url: `/employees/${id}`,
+        method: 'GET',
+      }),
+    }),
     // Use void Here. Trust me.
     getAllEmployees: builder.query<getAllEmployeesResponse, void>({
       query: () => ({
@@ -29,5 +38,8 @@ export const employeeApi = createApi({
   }),
 })
 
-export const { useCreateEmployeeMutation, useGetAllEmployeesQuery } =
-  employeeApi
+export const {
+  useCreateEmployeeMutation,
+  useGetAllEmployeesQuery,
+  useGetEmployeeByIdQuery,
+} = employeeApi

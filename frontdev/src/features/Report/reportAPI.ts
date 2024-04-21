@@ -14,7 +14,7 @@ export const reportApi = createApi({
   endpoints: (builder) => ({
     createReport: builder.mutation({
       query: (reportData) => ({
-        url: '/reports/report',
+        url: 'reports/report',
         method: 'POST',
         body: reportData,
       }),

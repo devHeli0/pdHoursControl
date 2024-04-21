@@ -1,3 +1,7 @@
+export type GetEmployeeByIdResponse = {
+  employee: Employee
+}
+
 export type GetEmployeeSpentHoursResponse = {
   employeeId: number
   spentHours: number
