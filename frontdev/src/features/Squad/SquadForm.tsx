@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import { useCreateSquadMutation } from './squadAPI'
 
-const NewSquadPage: React.FC = () => {
+const SquadForm: React.FC = () => {
   const [squadName, setSquadName] = useState('')
   const [createSquad, { isLoading, isError }] = useCreateSquadMutation()
 
@@ -31,4 +31,4 @@ const NewSquadPage: React.FC = () => {
   )
 }
 
-export default NewSquadPage
+export default SquadForm
