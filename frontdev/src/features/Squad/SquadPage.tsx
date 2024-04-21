@@ -47,11 +47,14 @@ const SquadPage = () => {
   return (
     <div className="flex flex-col items-start w-full">
       <div className="text-left">
-        <h2 className="text-2xl font-bold mb-4 mt-8">{squadName}</h2>
+        <h2 className="text-2xl ml-20 font-bold mb-4 mt-8">{squadName}</h2>
       </div>
-      <div className="justify-center inline-flex gap-10 mt-10 mb-4 mx-auto">
-        <div className="datepicker">
-          <label htmlFor="start-date" className="label">
+      <div className="justify-center inline-flex gap-10 mt-10mb-4 mx-auto">
+        <div className="flex flex-col items-center">
+          <label
+            htmlFor="start-date"
+            className="text-sm font-medium text-gray-500 pr-28"
+          >
             INICIO
           </label>
           <input
@@ -61,8 +64,11 @@ const SquadPage = () => {
             onChange={handleStartDateChange}
           />
         </div>
-        <div className="datepicker">
-          <label htmlFor="end-date" className="label">
+        <div className="flex flex-col items-center">
+          <label
+            htmlFor="end-date"
+            className="text-sm font-medium text-gray-500 pr-36"
+          >
             FIM
           </label>
           <input
@@ -74,7 +80,7 @@ const SquadPage = () => {
         </div>
         <button
           onClick={handleFilterClick}
-          className="w-48 h-12 bg-blue-500 text-white font-bold rounded-md"
+          className="mt-6 w-48 h-10 bg-blue-500 text-white font-bold rounded-md"
         >
           Filter
         </button>
