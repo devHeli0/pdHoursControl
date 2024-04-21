@@ -4,6 +4,8 @@ import { ISquadsRepository } from 'src/Domain/Repositories';
 import { Squad } from 'src/Domain/Entities';
 import { CreateSquadDTO } from 'src/Application/Commands/DTOs/CreateSquadDTO';
 import { GetSquadsReplyDTO } from 'src/Application/Queries/DTOs/Reply/GetSquadsReplyDTO';
+import { GetSquadByIdDTO } from 'src/Application/Queries/DTOs/Request/GetSquadByIdDTO';
+import { GetSquadByIdReplyDTO } from 'src/Application/Queries/DTOs/Reply/GetSquadByIdReplyDTO';
 
 @Injectable()
 export class SquadsRepository implements ISquadsRepository {
@@ -39,5 +41,14 @@ export class SquadsRepository implements ISquadsRepository {
       name: squad.name,
     }));
     return { list: squadList };
+  }
+
+  async getSquadById(data: GetSquadByIdDTO): Promise<GetSquadByIdReplyDTO> {
+    const squad = await this.prisma.squad.findUnique({
+      where: {
+        id: data.id,
+      },
+    });
+    return { squad };
   }
 }
