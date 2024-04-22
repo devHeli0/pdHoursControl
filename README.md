@@ -3,9 +3,9 @@ Antes de começar, certifique-se de ter o **Docker** instalado na sua máquina l
 <ul>
     <li>Clone o repositório para sua máquina.</li>
     <li>Navegue até o diretório clonado.</li>
-    <li>Abra um terminal e execute o comando ```python
+    <li>Abra um terminal e execute o comando ``
     docker compose up --build
-    ``` para iniciar os serviços.</li>
+    `` para iniciar os serviços.</li>
     <li>Aguarde até que todos os serviços estejam prontos.</li>
     <li>Abra seu navegador e vá para http://localhost:3001 para acessar a interface da aplicação.</li>
     <li>Com isso feito, o sistema estará pronto para ser utilizado.</li>
