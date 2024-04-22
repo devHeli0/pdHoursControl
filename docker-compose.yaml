@@ -56,16 +56,15 @@ services:
     depends_on:
       - postgresDB
 
-  # frontapp:
-  #   container_name: 'ctFrontPdHours'
-  #   build: ./frontdev
-  #   ports:
-  #     - 3001:3001
-  #   environment:
-  #     - REACT_APP_HOST = http://frontapp:3001
-  #     - REACT_APP_API = http://backclientmanagement:3000
-  #   networks:
-  #     - backend-network
+  frontapp:
+    container_name: 'ctFrontPdHours'
+    build: ./frontdev
+    ports:
+      - 3001:3001
+    environment:
+      - VITE_API_URL=http://localhost:3000
+    networks:
+      - backend-network
 
 volumes:
   postgres_data: {} # Define an empty volume for Postgres data

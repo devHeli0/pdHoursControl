@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
-
+import EmptySquadsSVG from '../../utils/Frame 1.svg'
 import type { Report } from '../../services/types'
 import {
   useGetEmployeeSpentHoursQuery,
@@ -64,6 +64,19 @@ const SquadPage = () => {
     averageHoursLoading,
     averageHoursError,
   ])
+
+  if (data?.length === 0) {
+    return (
+      <div className="inline justify-center items-center h-72 -mb-3 ">
+        <img
+          src={EmptySquadsSVG}
+          alt="emptySquads"
+          className="w-auto h-auto text-gray-500 pb-3.5 "
+        />
+        <p className="ml-4 text-gray-500">Nenhum squad disponível.</p>
+      </div>
+    )
+  }
 
   return (
     <div className="flex flex-col items-start w-full">

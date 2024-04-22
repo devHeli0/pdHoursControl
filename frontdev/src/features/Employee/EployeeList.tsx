@@ -29,7 +29,7 @@ const EmployeeList: React.FC = () => {
       )
     }
 
-    if (employees.length !== 0) {
+    if (employees.length === 0) {
       return (
         <div className="inline justify-center items-center h-72 -mb-3 ">
           <img
